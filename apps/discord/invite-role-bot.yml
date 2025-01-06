@@ -1,0 +1,102 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: invite-role-bot
+  namespace: discord
+spec:
+  selector:
+    matchLabels:
+      app: invite-role-bot
+  serviceName: invite-role-bot
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: invite-role-bot
+    spec:
+      containers:
+      - image: snofox/invite-role-bot:latest
+        imagePullPolicy: Always
+        name: invite-role-bot
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+          - name: config
+            mountPath: /config
+            readOnly: true
+          - name: data
+            mountPath: /data
+        env:
+          - name: BOT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: invite-role-bot-token
+                key: token
+                optional: false
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      securityContext:
+        fsGroup: 1000
+      volumes:
+      - name: config
+        configMap:
+          name: invite-role-bot
+          items:
+          - key: "config.json"
+            path: "config.json"
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "freenas-iscsi-csi"
+        resources:
+          requests:
+            storage: 10Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: invite-role-bot
+  namespace: discord
+data:
+  config.json: |
+    {
+        "BotConfig": {
+            "client_args": {
+                "chunk_guilds_at_startup": false,
+                "heartbeat_timeout": 20,
+                "max_messages": null,
+                "member_cache_flags": {
+                    "_class": "MemberCacheFlags",
+                    "voice": false,
+                    "joined": false
+                }
+            },
+            "intents": {
+                "guilds": true,
+                "invites": true,
+                "members": true,
+                "reactions": false
+            },
+            "enabled_modules": [
+                "modules.core",
+                "modules.invite_role_bot",
+                "modules.persistence"
+            ],
+            "token": "__BOT_TOKEN__"
+        },
+        "PersistenceConfig": {
+            "db_name": "/data/invite_role_bot.db"
+        }
+    }
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: invite-role-bot-token
+  namespace: discord
+spec:
+  itemPath: "vaults/FMT/items/discord:invite-role-bot-token"
