@@ -1,0 +1,131 @@
+# This needs to be updated for iSCSI mounts and
+# needs to be fully converted to Kustomize; stopped after OnePasswordItem
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: files-auth-
+    nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+  name: files-
+  namespace: minecraft
+spec:
+  rules:
+  - host: files.mc.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: files-
+            port:
+              number: 80
+  tls: []
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: files-auth-
+  namespace: minecraft
+spec:
+  itemPath: "vaults/FMT/items/minecraft:files-auth"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: files-
+  namespace: minecraft
+  labels:
+    app: files
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    name: nginx
+  selector:
+    app: files
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: files
+  namespace: minecraft
+data:
+  nginx.conf: |
+    events {
+      use epoll;
+    }
+    http {
+      server {
+        listen 80;
+        root /usr/share/nginx/html;
+        location / {
+          autoindex on;
+        }
+      }
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: files
+  name: files-
+  namespace: minecraft
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: files
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: files
+      name: files
+    spec:
+      nodeName: ruby.snofox.net
+      containers:
+      - name: nginx
+        imagePullPolicy: Always
+        image: nginx:latest
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "1"
+        ports:
+          - containerPort: 80
+            name: nginx
+        volumeMounts:
+          - mountPath: /usr/share/nginx/html/crash-reports
+            name: mcdir
+            subPath: crash-reports
+            readOnly: true
+          - mountPath: /usr/share/nginx/html/config
+            name: mcdir
+            subPath: config
+            readOnly: true
+          - mountPath: /usr/share/nginx/html/worlds
+            name: mcdir
+            subPath: worlds
+            readOnly: true
+          - mountPath: /etc/nginx/nginx.conf
+            name: config
+            readOnly: true
+            subPath: nginx.conf
+      volumes:
+      - name: mcdir
+        hostPath:
+          path: /volumes/minecraft/tblflp-survival
+      - name: config
+        configMap:
+          name: files

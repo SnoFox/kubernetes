@@ -1,0 +1,87 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  namespace: minecraft
+  name: tblflp-
+  labels: {}
+spec:
+  serviceName: tblflp-
+  replicas: 1
+  selector:
+    matchLabels:
+      mcname: tblflp
+  template:
+    metadata:
+      labels:
+        app: minecraft
+    spec:
+      terminationGracePeriodSeconds: 330
+      containers:
+      - name: minecraft
+        image: minecraft:latest
+        imagePullPolicy: IfNotPresent
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/app/stop.sh"]
+        envFrom:
+          - configMapRef:
+              name: tblflp-
+              optional: false
+          - secretRef:
+              name: tblflp-
+        volumeMounts:
+        - name: data
+          mountPath: /app/worlds/
+          subPath: worlds
+        - name: data
+          mountPath: /app/logs/
+          subPath: logs
+        - name: data
+          mountPath: /app/plugins/CraftRegions
+          subPath: config/CraftRegions
+        - name: data
+          mountPath: /app/plugins/Hats
+          subPath: config/Hats
+        - name: data
+          mountPath: /app/plugins/PlayerPortals
+          subPath: config/PlayerPortals
+        - name: data
+          mountPath: /app/plugins/BeaconBanish
+          subPath: config/BeaconBanish
+        - name: data
+          mountPath: /app/plugins/WorldEdit
+          subPath: config/WorldEdit
+        - name: data
+          mountPath: /app/crash-reports
+          subPath: crash-reports
+        - name: data
+          mountPath: /app/plugins/DProfiler/
+          subPath: config/DProfiler
+        - name: data
+          mountPath: /config
+          subPath: config
+        - name: data
+          mountPath: /dynmap
+          subPath: dynmap
+      - name: dynmap
+        image: nginx:1.19
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: data
+          subPath: dynmap
+          mountPath: /usr/share/nginx/html
+      imagePullSecrets:
+      - name: tableflip-registry
+      securityContext:
+        fsGroup: 25565
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "freenas-iscsi-csi"
+        resources:
+          requests:
+            storage: 500Gi

@@ -1,0 +1,9 @@
+- op: replace
+  path: /spec/rules/0/host
+  value: map.tableflip.zone
+- op: replace
+  path: /spec/tls/0/hosts/0
+  value: map.tableflip.zone
+- op: replace
+  path: /spec/tls/0/secretName
+  value: tblflp-survival-dynmap-tls

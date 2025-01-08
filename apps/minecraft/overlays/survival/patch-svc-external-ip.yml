@@ -1,0 +1,3 @@
+- op: replace
+  path: /spec/loadBalancerIP
+  value: 216.218.222.44

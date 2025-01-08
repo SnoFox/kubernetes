@@ -1,0 +1,10 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: files
+  namespace: minecraft
+  tls:
+  - hosts:
+    - files.mc.tblflp.zone
+    secretName: files-mc-tblflp-zone-tls

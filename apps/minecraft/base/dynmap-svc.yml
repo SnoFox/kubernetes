@@ -1,0 +1,41 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/tls-acme: "true"
+  name: dynmap-
+  namespace: minecraft
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: dynmap-
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - map.example.com
+    secretName: tblflp-
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dynmap-
+  namespace: minecraft
+  labels:
+    app: dynmap
+    mcname: tblflp
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+    name: dynmap-
+  selector:
+    app: minecraft
+    mcname: tblflp

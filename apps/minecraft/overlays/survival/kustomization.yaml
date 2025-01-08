@@ -1,0 +1,52 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+nameSuffix: survival
+images:
+  - name: minecraft
+    newName: registry.tblflp.zone/tblflp-survival
+    newTag: 2023.51.1
+labels:
+  - includeSelectors: true
+    includeTemplates: true
+    pairs:
+      mcname: tblflp-survival
+  - pairs:
+      app: tblflp-survival
+
+patches:
+  - path: patch-svc-external-dns.yml
+  - path: patch-svc-external-ip.yml
+    target:
+      kind: Service
+      name: tblflp-
+  - path: patch-svc-external-ip.yml
+    target:
+      kind: Service
+      name: tblflp-udp-
+  - path: patch-ingress-fqdn.yml
+    target:
+      kind: Ingress
+      name: dynmap-
+#  - path: patch-files-paths.yml
+#    target:
+#      kind: Ingress
+#      name: files
+#  - path: patch-files-fqdn.yml
+transformers:
+  - |-
+    apiVersion: builtin
+    kind: PrefixSuffixTransformer
+    metadata:
+      name: unsupportedNameSuffixer
+    suffix: survival
+    fieldSpecs:
+      - path: spec/serviceName
+      - path: spec/template/spec/containers/envFrom/configMapRef/name
+      - path: spec/template/spec/containers/envFrom/secretRef/name
+      - path: spec/ports/name
+        kind: Ingress
+        name: dynmap-
+      - path: spec/itemPath
+        kind: OnePasswordItem
