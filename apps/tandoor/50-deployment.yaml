@@ -15,6 +15,8 @@ spec:
       app: recipes
   template:
     metadata:
+      annotations:
+        operator.1password.io/last-restarted: never
       labels:
         app: recipes
         tier: frontend
