@@ -15,7 +15,6 @@ spec:
       app: recipes
   template:
     metadata:
-      annotations: {}
       labels:
         app: recipes
         tier: frontend
