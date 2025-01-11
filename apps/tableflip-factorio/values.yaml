@@ -2,9 +2,9 @@ tableflip:
   factorio: {}
 factorio-server-charts:
   serverPassword:
-    passwordSecret: serverSecret
+    passwordSecret: server-secret
   rcon:
-    passwordSecret: rconSecret
+    passwordSecret: rcon-secret
     serviceAnnotations:
       metallb.universe.tf/address-pool: public
       metallb.universe.tf/allow-shared-ip: shared
