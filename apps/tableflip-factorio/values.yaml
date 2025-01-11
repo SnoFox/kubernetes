@@ -1,0 +1,7 @@
+tableflip:
+  factorio: {}
+factorio-server-charts:
+  serverPassword:
+    passwordSecret: serverSecret
+  rcon:
+    passwordSecret: rconSecret
