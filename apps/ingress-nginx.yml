@@ -13,12 +13,12 @@ spec:
       # https://github.com/kubernetes/ingress-nginx?tab=readme-ov-file#supported-versions-table
       chart: ingress-nginx
       targetRevision: 4.12.2
-    #  helm:
-    #    valueFiles:
-    #    - $values/apps/ingress-nginx/values.yml
-    #- repoURL: https://gitlab.com/SnoFox/kubernetes.git
-    #  targetRevision: master
-    #  ref: values
+      helm:
+        valueFiles:
+        - $values/apps/ingress-nginx/values.yml
+    - repoURL: https://gitlab.com/SnoFox/kubernetes.git
+      targetRevision: master
+      ref: values
   syncPolicy:
     automated:
       prune: true
