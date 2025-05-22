@@ -1,0 +1,7 @@
+# Helm chart is located at argocd-apps/apps/ingress-nginx.yaml
+# Values are below
+controller:
+  service:
+    annotations:
+      metallb.universe.tf/address-pool: public
+      metallb.universe.tf/allow-shared-ip: shared
