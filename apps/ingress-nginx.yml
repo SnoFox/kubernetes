@@ -7,7 +7,7 @@ spec:
   project: default
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: ingress-nginx
   sources:
     - repoURL: https://kubernetes.github.io/ingress-nginx
       # https://github.com/kubernetes/ingress-nginx?tab=readme-ov-file#supported-versions-table
