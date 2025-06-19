@@ -45,7 +45,7 @@ spec:
         - name: SCREEN_DEPTH
           value: "16"
         - name: MAX_CONCURRENT_CHROME_PROCESSES
-          value: "10"
+          value: "20"
         securityContext:
           capabilities:
             add: ["CAP_SYS_RESOURCE"]
