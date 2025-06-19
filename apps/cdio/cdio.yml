@@ -40,12 +40,15 @@ spec:
         env:
         - name: SCREEN_WIDTH
           value: "1920"
-        - name: SCREEN__HEIGHT
+        - name: SCREEN_HEIGHT
           value: "1024"
         - name: SCREEN_DEPTH
           value: "16"
         - name: MAX_CONCURRENT_CHROME_PROCESSES
           value: "10"
+        securityContext:
+          capabilities:
+            add: ["CAP_SYS_RESOURCE"]
   volumeClaimTemplates:
     - metadata:
         name: data
