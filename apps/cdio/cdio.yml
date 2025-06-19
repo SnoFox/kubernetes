@@ -1,0 +1,57 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: cdio
+  namespace: cdio
+  annotations:
+  labels:
+    app: cdio
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: cdio
+  serviceName: cdio
+  template:
+    metadata:
+      labels:
+        app: cdio
+    spec:
+      containers:
+      - name: cdio
+        image: dgtlmoon/changedetection.io:0.50.3
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PLAYWRIGHT_DRIVER_URL
+          value: ws://sockpuppet:3000
+        - name: BASE_URL
+          value: https://cdio.snow-galaxy.ts.net
+        - name: TZ
+          value: America/Los_Angeles
+        resources: {}
+        volumeMounts:
+        - mountPath: /datastore
+          name: data
+      - name: sockpuppet
+        image: dgtlmoon/sockpuppetbrowser:latest
+        imagePullPolicy: Always
+        env:
+        - name: SCREEN_WIDTH
+          value: "1920"
+        - name: SCREEN__HEIGHT
+          value: "1024"
+        - name: SCREEN_DEPTH
+          value: "16"
+        - name: MAX_CONCURRENT_CHROME_PROCESSES
+          value: "10"
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "freenas-iscsi-csi"
+        resources:
+          requests:
+            storage: 20Gi
