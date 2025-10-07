@@ -1,0 +1,131 @@
+ingress:
+  enabled: true
+  annotations: {}
+  # define a custom ingress class Name, like "traefik" or "nginx"
+  className: "tailscale"
+  tls:
+     - hosts:
+        - workflows
+
+# the main (n8n) application related configuration + Kubernetes specific settings
+# The config: {} dictionary is converted to environmental variables in the ConfigMap.
+main:
+  # See https://docs.n8n.io/hosting/configuration/environment-variables/ for all values.
+  config:
+      n8n:
+       log:
+         level: info
+      #db:
+      #  type: postgresdb
+      #  postgresdb:
+      #    host: postgres
+
+  # Extra environmental variables, so you can reference other configmaps and secrets into n8n as env vars.
+  extraEnv:
+  #    N8N_DB_POSTGRESDB_NAME:
+  #      valueFrom:
+  #        secretKeyRef:
+  #          name: db-app
+  #          key: dbname
+  #
+  # N8n Kubernetes specific settings
+  #
+  persistence:
+    # If true, use a Persistent Volume Claim, If false, use emptyDir
+    enabled: true
+    # what type volume, possible options are [existing, emptyDir, dynamic] dynamic for Dynamic Volume Provisioning, existing for using an existing Claim
+    type: dynamic
+    storageClass: "freenas-iscsi-csi"
+    accessModes:
+      - ReadWriteOnce
+    size: 1Gi
+
+  # Number of desired pods. More than one pod is supported in n8n enterprise.
+  replicaCount: 1
+
+  # here you can specify the deployment strategy as Recreate or RollingUpdate with optional maxSurge and maxUnavailable
+  # If these options are not set, default values are 25%
+  # deploymentStrategy:
+  #  type: Recreate | RollingUpdate
+  #  maxSurge: "50%"
+  #  maxUnavailable: "50%"
+
+  deploymentStrategy:
+    type: "Recreate"
+    #  maxSurge: "50%"
+    #  maxUnavailable: "50%"
+
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+
+  # Annotations to be implemented on the main service deployment
+  deploymentAnnotations: {}
+  # Labels to be implemented on the main service deployment
+  deploymentLabels: {}
+  # Annotations to be implemented on the main service pod
+  podAnnotations: {}
+  # Labels to be implemented on the main service pod
+  podLabels: {}
+
+  # here you can specify lifecycle hooks - it can be used e.g., to easily add packages to the container without building
+  # your own docker image
+  # see https://github.com/8gears/n8n-helm-chart/pull/30
+  lifecycle: {}
+
+  #  here's the sample configuration to add mysql-client to the container
+  # lifecycle:
+  #  postStart:
+  #    exec:
+  #      command: ["/bin/sh", "-c", "apk add mysql-client"]
+
+  # here you can override a command for main container
+  # it may be used to override a starting script (e.g., to resolve issues like https://github.com/n8n-io/n8n/issues/6412) or run additional preparation steps (e.g., installing additional software)
+  command: []
+
+  # sample configuration that overrides starting script and solves above issue (also it runs n8n as root, so be careful):
+  # command:
+  #  - tini
+  #  - --
+  #  - /bin/sh
+  #  - -c
+  #  - chmod o+rx /root; chown -R node /root/.n8n || true; chown -R node /root/.n8n; ln -s /root/.n8n /home/node; chown -R node /home/node || true; node /usr/local/bin/n8n
+
+  initContainers: []
+  #    - name: init-data-dir
+  #      image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+  #      command: [ "/bin/sh", "-c", "mkdir -p /home/node/.n8n/" ]
+  #      volumeMounts:
+  #        - name: data
+  #          mountPath: /home/node/.n8n
+
+
+  service:
+    enabled: true
+    annotations: {}
+    # -- Service types allow you to specify what kind of Service you want.
+    # E.g., ClusterIP, NodePort, LoadBalancer, ExternalName
+    type: ClusterIP
+    # -- Service port
+    port: 80
+
+  resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
