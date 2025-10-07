@@ -1,11 +1,9 @@
 ingress:
   enabled: true
   annotations: {}
-  # define a custom ingress class Name, like "traefik" or "nginx"
   className: "tailscale"
   hosts:
-    - host: workflows
-      paths: []
+    - paths: []
   tls:
      - hosts:
         - workflows
