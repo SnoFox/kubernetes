@@ -30,6 +30,10 @@ main:
     hiring:
       banner:
         enabled: false
+    enforce:
+      settings:
+        file:
+          permissions: true
     webhook_url: *url
     db:
       type: postgresdb
