@@ -3,7 +3,8 @@ ingress:
   annotations: {}
   className: "tailscale"
   hosts:
-    - paths: []
+    - paths:
+        - /
   tls:
      - hosts:
         - workflows
