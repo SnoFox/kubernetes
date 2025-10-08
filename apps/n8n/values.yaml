@@ -34,7 +34,7 @@ main:
     db:
       type: postgresdb
       postgresdb:
-        host: pg
+        host: pg-rw
   extraEnv:
     N8N_LICENSE_ACTIVATION_KEY:
       valueFrom:
