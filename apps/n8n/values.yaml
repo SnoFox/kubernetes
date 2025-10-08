@@ -1,3 +1,6 @@
+_shared_config:
+  url: &url https://workflows.snow-galaxy.ts.net
+  hostname: &hostname workflows.snow-galaxy.ts.net
 ingress:
   enabled: true
   annotations: {}
@@ -14,24 +17,39 @@ ingress:
 main:
   # See https://docs.n8n.io/hosting/configuration/environment-variables/ for all values.
   config:
-      n8n:
-       log:
-         level: info
-      #db:
-      #  type: postgresdb
-      #  postgresdb:
-      #    host: postgres
-
-  # Extra environmental variables, so you can reference other configmaps and secrets into n8n as env vars.
+    n8n:
+      host: *hostname
+      port: 443
+      editor_base_url: *url
+      proxy:
+        hops: 1
+     log:
+       level: info
+    webhook_url: *url
+    db:
+      type: postgresdb
+      postgresdb:
+        host: pg
+  secret:
+    n8n:
+      encryption_key: "<your-secure-encryption-key>"
   extraEnv:
-  #    N8N_DB_POSTGRESDB_NAME:
-  #      valueFrom:
-  #        secretKeyRef:
-  #          name: db-app
-  #          key: dbname
-  #
-  # N8n Kubernetes specific settings
-  #
+    N8N_LICENSE_ACTIVATION_KEY:
+      valueFrom:
+        secretKeyRef:
+          name: n8n-secrets
+          key: license-key
+    DB_POSTGRESDB_USER:
+      valueFrom:
+        secretKeyRef:
+          name: pg-secrets
+          key: username
+    DB_POSTGRESDB_PASSWORD:
+      valueFrom:
+        secretKeyRef:
+          name: pg-secrets
+          key: password
+
   persistence:
     # If true, use a Persistent Volume Claim, If false, use emptyDir
     enabled: true
@@ -42,70 +60,8 @@ main:
       - ReadWriteOnce
     size: 1Gi
 
-  # Number of desired pods. More than one pod is supported in n8n enterprise.
-  replicaCount: 1
-
-  # here you can specify the deployment strategy as Recreate or RollingUpdate with optional maxSurge and maxUnavailable
-  # If these options are not set, default values are 25%
-  # deploymentStrategy:
-  #  type: Recreate | RollingUpdate
-  #  maxSurge: "50%"
-  #  maxUnavailable: "50%"
-
-  deploymentStrategy:
-    type: "Recreate"
-    #  maxSurge: "50%"
-    #  maxUnavailable: "50%"
-
-  serviceAccount:
-    create: true
-    annotations: {}
-    name: ""
-
-  # Annotations to be implemented on the main service deployment
-  deploymentAnnotations: {}
-  # Labels to be implemented on the main service deployment
-  deploymentLabels: {}
-  # Annotations to be implemented on the main service pod
-  podAnnotations: {}
-  # Labels to be implemented on the main service pod
-  podLabels: {}
-
-  # here you can specify lifecycle hooks - it can be used e.g., to easily add packages to the container without building
-  # your own docker image
-  # see https://github.com/8gears/n8n-helm-chart/pull/30
-  lifecycle: {}
-
-  #  here's the sample configuration to add mysql-client to the container
-  # lifecycle:
-  #  postStart:
-  #    exec:
-  #      command: ["/bin/sh", "-c", "apk add mysql-client"]
-
-  # here you can override a command for main container
-  # it may be used to override a starting script (e.g., to resolve issues like https://github.com/n8n-io/n8n/issues/6412) or run additional preparation steps (e.g., installing additional software)
-  command: []
-
-  # sample configuration that overrides starting script and solves above issue (also it runs n8n as root, so be careful):
-  # command:
-  #  - tini
-  #  - --
-  #  - /bin/sh
-  #  - -c
-  #  - chmod o+rx /root; chown -R node /root/.n8n || true; chown -R node /root/.n8n; ln -s /root/.n8n /home/node; chown -R node /home/node || true; node /usr/local/bin/n8n
-
-  initContainers: []
-  #    - name: init-data-dir
-  #      image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-  #      command: [ "/bin/sh", "-c", "mkdir -p /home/node/.n8n/" ]
-  #      volumeMounts:
-  #        - name: data
-  #          mountPath: /home/node/.n8n
-
-
   service:
     enabled: true
-    annotations: {}
     # -- Service types allow you to specify what kind of Service you want.
     # E.g., ClusterIP, NodePort, LoadBalancer, ExternalName
     type: ClusterIP
@@ -120,14 +76,45 @@ main:
   #   cpu: 100m
   #   memory: 128Mi
 
-  autoscaling:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 100
-    targetCPUUtilizationPercentage: 80
-    # targetMemoryUtilizationPercentage: 80
-
-  nodeSelector: {}
-  tolerations: []
-  affinity: {}
-
+extraManifests:
+  # https://cloudnative-pg.io/documentation/1.27/cloudnative-pg.v1/
+  - apiVersion: postgresql.cnpg.io/v1
+    kind: Cluster
+    metadata:
+      name: pg
+      namespace: n8n
+    spec:
+      instances: 1
+      bootstrap:
+        initdb:
+          database: n8n
+          owner: n8n
+      postgresql:
+        parameters:
+          shared_buffers: "64MB"
+      resources:
+        requests:
+          memory: "512Mi"
+        limits:
+          memory: "512Mi"
+      storage:
+        storageClass: "freenas-iscsi-csi"
+        size: 5Gi
+        pvcTemplate:
+          accessModes:
+            - ReadWriteOnce
+  - apiVersion: onepassword.com/v1
+    kind: OnePasswordItem
+    metadata:
+      name: n8n-secrets
+      namespace: n8n
+    spec:
+      itemPath: "vaults/FMT/items/n8n:n8n-secrets"
+  - apiVersion: onepassword.com/v1
+    kind: OnePasswordItem
+    metadata:
+      name: pg-secrets
+      namespace: n8n
+    type: "kubernetes.io/basic-auth"
+    spec:
+      itemPath: "vaults/FMT/items/n8n:pg-secrets"
