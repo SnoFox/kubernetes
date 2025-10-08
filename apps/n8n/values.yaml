@@ -20,7 +20,6 @@ main:
   config:
     n8n:
      host: *hostname
-     port: 443
      protocol: https
      editor_base_url: *url
      proxy:
