@@ -91,7 +91,8 @@ extraManifests:
         initdb:
           database: n8n
           owner: n8n
-          secret: pg-secrets
+          secret:
+            name: pg-secrets
       postgresql:
         parameters:
           shared_buffers: "64MB"
