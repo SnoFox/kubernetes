@@ -59,6 +59,16 @@ main:
         secretKeyRef:
           name: pg-secrets
           key: password
+    MIKU_API_TOKEN:
+      valueFrom:
+        secretKeyRef:
+          name: n8n-secrets
+          key: miku-api-token
+    MYURI_API_TOKEN:
+      valueFrom:
+        secretKeyRef:
+          name: n8n-secrets
+          key: myuri-api-token
 
   persistence:
     # If true, use a Persistent Volume Claim, If false, use emptyDir
