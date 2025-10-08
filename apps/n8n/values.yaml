@@ -44,6 +44,11 @@ main:
         secretKeyRef:
           name: n8n-secrets
           key: license-key
+    N8N_ENCRYPTION_KEY:
+      valueFrom:
+        secretKeyRef:
+          name: n8n-secrets
+          key: encryption-key
     DB_POSTGRESDB_USER:
       valueFrom:
         secretKeyRef:
