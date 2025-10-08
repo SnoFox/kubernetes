@@ -1,16 +1,17 @@
 _shared_config:
   url: &url https://workflows.snow-galaxy.ts.net
   hostname: &hostname workflows.snow-galaxy.ts.net
+
 ingress:
   enabled: true
   annotations: {}
   className: "tailscale"
   hosts:
-    - paths:
-        - /
+   - paths:
+       - /
   tls:
-     - hosts:
-        - workflows
+   - hosts:
+      - workflows
 
 # the main (n8n) application related configuration + Kubernetes specific settings
 # The config: {} dictionary is converted to environmental variables in the ConfigMap.
@@ -18,27 +19,33 @@ main:
   # See https://docs.n8n.io/hosting/configuration/environment-variables/ for all values.
   config:
     n8n:
-      host: *hostname
-      port: 443
-      editor_base_url: *url
-      proxy:
-        hops: 1
+     host: *hostname
+     port: 443
+     protocol: https
+     editor_base_url: *url
+     proxy:
+       hops: 1
      log:
        level: info
+    hiring:
+      banner:
+        enabled: false
     webhook_url: *url
     db:
       type: postgresdb
       postgresdb:
         host: pg
-  secret:
-    n8n:
-      encryption_key: "<your-secure-encryption-key>"
   extraEnv:
     N8N_LICENSE_ACTIVATION_KEY:
       valueFrom:
         secretKeyRef:
           name: n8n-secrets
           key: license-key
+    N8N_ENCRYPTION_KEY:
+      valueFrom:
+        secretKeyRef:
+          name: n8n-secrets
+          key: encryption-key
     DB_POSTGRESDB_USER:
       valueFrom:
         secretKeyRef:
