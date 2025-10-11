@@ -24,12 +24,6 @@ spec:
   syncPolicy:
     automated:
       prune: true
-      selfHeal: false
+      selfHeal: true
     syncOptions:
     - CreateNamespace=true
-  ignoreDifferences:
-    - group: v1
-      kind: Service
-      jsonPointers:
-        - /spec/externalName
-
