@@ -6,17 +6,14 @@ policy: upsert-only
 registry: txt # TODO: move to dynamodb later
 txtOwnerId: holo
 txtPrefix: ext-dns
-provider:
-  name: aws
-  webhook:
-    env:
-    - name: AWS_ACCESS_KEY_ID
-      valueFrom:
-        secretKeyRef:
-          name: r53-creds
-          key: access-key
-    - name: AWS_SECRET_ACCESS_KEY
-      valueFrom:
-        secretKeyRef:
-          name: r53-creds
-          key: secret-key
+env:
+- name: AWS_ACCESS_KEY_ID
+  valueFrom:
+    secretKeyRef:
+      name: r53-creds
+      key: access-key
+- name: AWS_SECRET_ACCESS_KEY
+  valueFrom:
+    secretKeyRef:
+      name: r53-creds
+      key: secret-key
