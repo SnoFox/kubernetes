@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  namespace: argocd
+  name: cert-manager
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
+  sources:
+    # Contains OnePasswordItems and other support resources
+    - repoURL: https://gitlab.com/SnoFox/kubernetes.git
+      path: apps/cert-manager
+      targetRevision: master
+    # cert-manager itself
+    - repoURL: quay.io/jetstack/charts
+      chart: cert-manager
+      targetRevision: v1.19.0
+      helm:
+        valueFiles:
+        - $values/values/cert-manager.yaml
+    # Contains values for cert-manager
+    - repoURL: https://gitlab.com/SnoFox/kubernetes.git
+      targetRevision: master
+      ref: values
+    # Contains ClusterIssuers due to inability to hide email address
+    - repoURL: https://gitlab.com/SnoFox/k8s.git
+      path: apps/cert-manager
+      targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
