@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/tailnet-ip: 100.94.14.122
+  name: miku-ts
+  namespace: n8n
+spec:
+  externalName: placeholder
+  type: ExternalName
+
