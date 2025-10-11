@@ -17,3 +17,5 @@ env:
     secretKeyRef:
       name: r53-creds
       key: secret-key
+- name: AWS_DEFAULT_REGION
+  value: us-east-1
