@@ -10,7 +10,7 @@ renovate:
       "onboarding": true,
       "requireConfig": "required",
       "autodiscover": true,
-      "autodiscoverFilter": "SnoFox/.*"
+      "autodiscoverFilter": "SnoFox/*"
     }
 
 envList:
