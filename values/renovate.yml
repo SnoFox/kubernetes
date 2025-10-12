@@ -1,0 +1,36 @@
+cronjob:
+  schedule: '0 1,13 * * *'
+  timeZone: 'America/Los_Angeles'
+  suspend: false
+
+renovate:
+  config: |
+  {
+    "platform": "gitlab",
+    "onboarding": false,
+    "requireConfig": "required",
+    "autodiscover": true,
+    "autodiscoverFilter": "SnoFox/.*"
+  }
+
+envList:
+  - name: RENOVATE_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: renovate-secrets
+        key: gitlab-token
+  - name: RENOVATE_GITHUB_COM_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: renovate-secrets
+        key: github-token
+
+extraObjects:
+- apiVersion: onepassword.com/v1
+  kind: OnePasswordItem
+  metadata:
+    name: renovate-secrets
+    namespace: renovate
+  spec:
+    itemPath: "vaults/FMT/items/renovate:secrets"
+
