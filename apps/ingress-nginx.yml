@@ -3,6 +3,8 @@ kind: Application
 metadata:
   namespace: argocd
   name: ingress-nginx
+  labels:
+    snofox.net/catagory: system
 spec:
   project: default
   destination:
