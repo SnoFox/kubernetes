@@ -16,7 +16,7 @@ spec:
       targetRevision: 41.17.2
       helm:
         valueFiles:
-        - $values/values/renovate/values.yml
+        - $values/values/renovate.yml
     - repoURL: https://gitlab.com/SnoFox/kubernetes.git
       targetRevision: master
       ref: values
