@@ -18,6 +18,7 @@ spec:
       chart: democratic-csi
       targetRevision: 0.15.0
       helm:
+        releaseName: freenas-iscsi
         valueFiles:
         - $values/values/democratic-csi.yml
     - repoURL: https://gitlab.com/SnoFox/kubernetes.git
