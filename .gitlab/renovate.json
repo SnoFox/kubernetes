@@ -1,0 +1,40 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:best-practices"
+  ],
+  "addLabels": ["automated"],
+  "assignees": ["snofox"],
+  "argocd": {
+    "managerFilePatterns": ["/\\.yml$/"]
+  },
+  "packageRules": [
+    {
+      "matchDatasources": ["helm"],
+      "groupName": "helm charts",
+      "groupSlug": "helm-charts"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "groupName": "docker images",
+      "groupSlug": "docker-images"
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "groupName": "major updates",
+      "groupSlug": "major"
+    },
+    {
+      "matchUpdateTypes": ["patch"],
+      "groupName": "patch updates",
+      "groupSlug": "patch",
+      "automerge": false,
+      "automergeType": "pr",
+      "automergeStrategy": "squash"
+    }
+  ],
+  "prConcurrentLimit": 3,
+  "prCreation": "immediate",
+  "prHourlyLimit": 2,
+  "labels": ["renovate", "argocd"]
+}
