@@ -1,0 +1,145 @@
+driver:
+  image:
+    tag: next
+  config:
+    driver: freenas-api-iscsi
+    instance_id:
+    httpConnection:
+      protocol: https
+      host: "${TRUENAS_HOST}"
+      port: 443
+      apiKey: "${TRUENAS_API_TOKEN}"
+      allowInsecure: false
+    sshConnection: {}
+    zfs:
+      # can use handlebars templates with the parameters from the storage class/CO
+      datasetProperties:
+        "org.freenas:description": "{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}/{{ parameters.[csi.storage.k8s.io/pvc/name] }}"
+      # total volume name (zvol/<datasetParentName>/<pvc name>) length cannot exceed 63 chars
+      # datasetParentName should therefore be 17 chars or less when using TrueNAS 12 or below
+      datasetParentName: myuripool/k8s/vol
+      detachedSnapshotsDatasetParentName: myuripool/k8s/snap
+      # "" (inherit), lz4, gzip-9, etc
+      zvolCompression:
+      # "" (inherit), on, off, verify
+      zvolDedup:
+      zvolEnableReservation: false
+      # 512, 1K, 2K, 4K, 8K, 16K, 64K, 128K default is 16K
+      zvolBlocksize:
+    iscsi:
+      targetPortal: "${TRUENAS_HOST}:3260"
+      targetPortals: []
+      # leave empty to omit usage of -I with iscsiadm
+      interface:
+      # MUST ensure uniqueness
+      # full iqn limit is 223 bytes, plan accordingly
+      # default is "{{ name }}"
+      nameTemplate: "{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}-{{ parameters.[csi.storage.k8s.io/pvc/name] }}"
+      namePrefix: "csi-"
+      # add as many as needed
+      targetGroups:
+        # get the correct ID from the "portal" section in the UI
+        - targetGroupPortalGroup: 1
+          # get the correct ID from the "initiators" section in the UI
+          targetGroupInitiatorGroup: 1
+          # None, CHAP, or CHAP Mutual
+          targetGroupAuthType: CHAP
+          # get the correct ID from the "Authorized Access" section of the UI
+          # only required if using Chap
+          targetGroupAuthGroup: 1
+      extentInsecureTpc: true
+      extentXenCompat: false
+      extentDisablePhysicalBlocksize: true
+      # 512, 1024, 2048, or 4096,
+      extentBlocksize: 512
+      # "" (let FreeNAS decide, currently defaults to SSD), Unknown, SSD, 5400, 7200, 10000, 15000
+      extentRpm: "SSD"
+      # 0-100 (0 == ignore)
+      extentAvailThreshold: 0
+
+# https://kubernetes-csi.github.io/docs/csi-driver-object.html
+csiDriver:
+  # should be globally unique for a given cluster
+  name: "org.democratic-csi.iscsi"
+  attachRequired: false
+
+controller:
+  enabled: true
+  image:
+    tag: next
+  # deployment = deploy controller parts in a distinct deployment
+  # node       = deploy controller as sidecars with node daemonset
+  strategy: deployment
+  driver:
+    enabled: true
+    logLevel: debug
+    image:
+      tag: next
+    extraEnv:
+      - name: TRUENAS_HOST
+        valueFrom:
+          secretKeyRef:
+            name: driver-secrets
+            key: truenas_host
+      - name: TRUENAS_API_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: driver-secrets
+            key: truenas_api_token
+
+node:
+  driver:
+    enabled: true
+    image:
+      tag: next
+    logLevel: debug
+    extraEnv:
+      - name: TRUENAS_HOST
+        valueFrom:
+          secretKeyRef:
+            name: driver-secrets
+            key: truenas_host
+      - name: TRUENAS_API_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: driver-secrets
+            key: truenas_api_token
+
+# TODO: if I ever recreate this StorageClass, consider the following:
+# - Make this the default class
+# - Hardcode shorter secret names
+storageClasses:
+- name: freenas-iscsi-csi
+  defaultClass: false
+  reclaimPolicy: Delete
+  volumeBindingMode: Immediate
+  allowVolumeExpansion: true
+  parameters:
+    fsType: ext4
+    # replace the chart's secret object for GitOps checkin
+    csi.storage.k8s.io/controller-expand-secret-namespace: {{ .Release.Namespace }}
+    csi.storage.k8s.io/controller-expand-secret-name: controller-expand-secret-freenas-iscsi-csi-freenas-iscsi-democr
+    csi.storage.k8s.io/controller-publish-secret-namespace: {{ .Release.Namespace }}
+    csi.storage.k8s.io/controller-publish-secret-name: controller-publish-secret-freenas-iscsi-csi-freenas-iscsi-democ
+    csi.storage.k8s.io/node-publish-secret-namespace: {{ .Release.Namespace }}
+    csi.storage.k8s.io/node-publish-secret-name: node-publish-secret-freenas-iscsi-csi-freenas-iscsi-democratic
+    csi.storage.k8s.io/node-stage-secret-namespace: {{ .Release.Namespace }}
+    csi.storage.k8s.io/node-stage-secret-name: node-stage-secret-freenas-iscsi-csi-freenas-iscsi-democratic-cs
+    csi.storage.k8s.io/provisioner-secret-namespace: {{ .Release.Namespace }}
+    csi.storage.k8s.io/provisioner-secret-name: provisioner-secret-freenas-iscsi-csi-freenas-iscsi-democratic-c
+    # if true, volumes created from other snapshots will be
+    # zfs send/received instead of zfs cloned
+    # detachedVolumesFromSnapshots: "false"
+
+    # if true, volumes created from other volumes will be
+    # zfs send/received instead of zfs cloned
+    # detachedVolumesFromVolumes: "false"
+
+volumeSnapshotClasses:
+- name: freenas-iscsi-csi
+  parameters:
+  # if true, snapshots will be created with zfs send/receive
+  # detachedSnapshots: "false"
+  secrets:
+    snapshotter-secret:
+
