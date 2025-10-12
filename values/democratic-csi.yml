@@ -117,15 +117,15 @@ storageClasses:
   parameters:
     fsType: ext4
     # replace the chart's secret object for GitOps checkin
-    csi.storage.k8s.io/controller-expand-secret-namespace: "{{ .Release.Namespace }}"
+    csi.storage.k8s.io/controller-expand-secret-namespace: democratic-csi
     csi.storage.k8s.io/controller-expand-secret-name: controller-expand-secret-freenas-iscsi-csi-freenas-iscsi-democr
-    csi.storage.k8s.io/controller-publish-secret-namespace: "{{ .Release.Namespace }}"
+    csi.storage.k8s.io/controller-publish-secret-namespace: democratic-csi
     csi.storage.k8s.io/controller-publish-secret-name: controller-publish-secret-freenas-iscsi-csi-freenas-iscsi-democ
-    csi.storage.k8s.io/node-publish-secret-namespace: "{{ .Release.Namespace }}"
+    csi.storage.k8s.io/node-publish-secret-namespace: democratic-csi
     csi.storage.k8s.io/node-publish-secret-name: node-publish-secret-freenas-iscsi-csi-freenas-iscsi-democratic
-    csi.storage.k8s.io/node-stage-secret-namespace: "{{ .Release.Namespace }}"
+    csi.storage.k8s.io/node-stage-secret-namespace: democratic-csi
     csi.storage.k8s.io/node-stage-secret-name: node-stage-secret-freenas-iscsi-csi-freenas-iscsi-democratic-cs
-    csi.storage.k8s.io/provisioner-secret-namespace: "{{ .Release.Namespace }}"
+    csi.storage.k8s.io/provisioner-secret-namespace: democratic-csi
     csi.storage.k8s.io/provisioner-secret-name: provisioner-secret-freenas-iscsi-csi-freenas-iscsi-democratic-c
     # if true, volumes created from other snapshots will be
     # zfs send/received instead of zfs cloned
