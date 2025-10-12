@@ -16,7 +16,7 @@ spec:
       targetRevision: 1.0.15
       helm:
         valueFiles:
-        - $values/apps/n8n/values.yaml
+        - $values/values/n8n.yml
     - repoURL: https://gitlab.com/SnoFox/kubernetes.git
       targetRevision: master
       ref: values

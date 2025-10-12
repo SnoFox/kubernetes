@@ -17,7 +17,7 @@ spec:
       targetRevision: 4.13.3
       helm:
         valueFiles:
-        - $values/apps/ingress-nginx/values.yml
+        - $values/values/ingress-nginx.yml
     - repoURL: https://gitlab.com/SnoFox/kubernetes.git
       targetRevision: master
       ref: values
