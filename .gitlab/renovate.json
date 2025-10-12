@@ -35,6 +35,5 @@
   ],
   "prConcurrentLimit": 3,
   "prCreation": "immediate",
-  "prHourlyLimit": 2,
-  "labels": ["renovate", "argocd"]
+  "prHourlyLimit": 2
 }
