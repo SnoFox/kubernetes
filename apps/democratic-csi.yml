@@ -26,9 +26,9 @@ spec:
       ref: values
   syncPolicy:
     automated:
-      enable: false
-      prune: false
-      selfHeal: false
+      enable: true
+      prune: true
+      selfHeal: true
     syncOptions:
     - CreateNamespace=true
     - Replace=false
