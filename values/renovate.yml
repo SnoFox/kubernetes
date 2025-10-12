@@ -5,13 +5,13 @@ cronjob:
 
 renovate:
   config: |
-  {
-    "platform": "gitlab",
-    "onboarding": false,
-    "requireConfig": "required",
-    "autodiscover": true,
-    "autodiscoverFilter": "SnoFox/.*"
-  }
+    {
+      "platform": "gitlab",
+      "onboarding": false,
+      "requireConfig": "required",
+      "autodiscover": true,
+      "autodiscoverFilter": "SnoFox/.*"
+    }
 
 envList:
   - name: RENOVATE_TOKEN
