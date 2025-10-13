@@ -6,10 +6,10 @@
   "addLabels": ["automated"],
   "assignees": ["snofox"],
   "kubernetes": {
-    "managerFilePatterns": ["/^/apps/.*\\.ya?ml$/"]
+    "managerFilePatterns": ["/^apps/.*\\.ya?ml$/"]
   },
   "helm-values": {
-    "managerFilePatterns": ["/^/values/.*\\.ya?ml$/"]
+    "managerFilePatterns": ["/^values/.*\\.ya?ml$/"]
   },
   "packageRules": [
     {
