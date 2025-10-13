@@ -47,7 +47,7 @@ spec:
               secretKeyRef:
                 name: recipes
                 key: postgresql-postgres-password
-        image: vabene1111/recipes:2.3.2@sha256:650983bb4fb9f6941ad53c83b4cc94e4236d803c187034429c2eafe5e5ac098e
+        image: vabene1111/recipes:1.5.35
         imagePullPolicy: Always
         resources:
           requests:
@@ -61,6 +61,7 @@ spec:
           source venv/bin/activate
           echo "Updating database"
           python manage.py migrate
+          python manage.py collectstatic_js_reverse
           python manage.py collectstatic --noinput
           echo "Setting media file attributes"
           chown -R 65534:65534 /opt/recipes/mediafiles
