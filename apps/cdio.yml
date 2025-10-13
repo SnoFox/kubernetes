@@ -13,7 +13,7 @@ spec:
   source:
     repoURL: https://gitlab.com/SnoFox/kubernetes.git
     path: apps/cdio
-    targetRevision: master
+    targetRevision: HEAD
   syncPolicy:
     automated:
       enable: true
