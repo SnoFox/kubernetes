@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  namespace: argocd
+  name: argocd
+  labels:
+    snofox.net/catagory: system
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  sources:
+    - repoURL: https://argoproj.github.io/argo-helm
+      chart: argocd
+      targetRevision: 3.1.8
+      helm:
+        valueFiles:
+        - $values/values/argocd.yml
+    - repoURL: https://gitlab.com/SnoFox/kubernetes.git
+      targetRevision: master
+      ref: values
+  syncPolicy:
+    automated:
+      enable: false
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
