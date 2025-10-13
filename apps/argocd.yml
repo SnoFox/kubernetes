@@ -10,20 +10,14 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
-  sources:
-    - repoURL: https://argoproj.github.io/argo-helm
-      chart: argo-cd
-      targetRevision: 8.6.0
-      helm:
-        valueFiles:
-        - $values/values/argocd.yml
-    - repoURL: https://gitlab.com/SnoFox/kubernetes.git
-      targetRevision: master
-      ref: values
+  source:
+    repoURL: https://gitlab.com/SnoFox/kubernetes.git
+    path: apps/argocd
+    targetRevision: HEAD
   syncPolicy:
     automated:
       enable: false
-      prune: true
-      selfHeal: true
+      prune: false
+      selfHeal: false
     syncOptions:
     - CreateNamespace=true
