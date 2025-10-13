@@ -15,9 +15,5 @@ spec:
     path: apps/argocd
     targetRevision: HEAD
   syncPolicy:
-    automated:
-      enable: false
-      prune: false
-      selfHeal: false
     syncOptions:
     - CreateNamespace=true
