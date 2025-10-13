@@ -3,10 +3,10 @@ kind: ConfigMap
 metadata:
   name: argocd-cm
 data:
+  resource.customizations.ignoreDifferences.Service: |
+    jqPathExpressions:
+    - 'select(.metadata.annotations."tailscale.com/tailnet-ip" != null or .metadata.annotations."tailscale.com/tailnet-fqdn" != null) | .spec.externalName'
   resource.customizations.ignoreDifferences.apps_Deployment: |
     jqPathExpressions:
     - '.spec.template.metadata.annotations["operator.1password.io/last-restarted"]'
     - '.spec.template.metadata.annotations["kubectl.kubernetes.io/restartedAt"]'
-  resource.customizations.ignoreDifferences.Service: |
-    jqPathExpressions:
-    - 'select(.metadata.annotations."tailscale.com/tailnet-ip" != null or .metadata.annotations."tailscale.com/tailnet-fqdn" != null) | .spec.externalName'
