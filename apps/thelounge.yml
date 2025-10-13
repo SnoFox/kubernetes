@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  namespace: argocd
+  name: thelounge
+  labels:
+    snofox.net/catagory: fun
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: irc
+  source:
+    repoURL: https://gitlab.com/SnoFox/kubernetes.git
+    path: apps/thelounge
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      enable: true
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
