@@ -16,21 +16,21 @@
   },
   "packageRules": [
     {
-      "matchDatasources": ["helm"],
-      "groupName": "helm charts",
-      "groupSlug": "helm-charts"
+      "description": "Group updates by app directory and update type",
+      "matchPaths": ["apps/**"],
+      "matchUpdateTypes": ["minor", "major"],
+      "groupName": "{{parentDir}} {{updateType}} updates",
+      "groupSlug": "{{parentDir}}-{{updateType}}"
     },
     {
-      "matchDatasources": ["docker"],
-      "groupName": "docker images",
-      "groupSlug": "docker-images"
+      "description": "Group updates in values directory by update type",
+      "matchPaths": ["values/**"],
+      "matchUpdateTypes": ["minor", "major"],
+      "groupName": "values {{updateType}} updates",
+      "groupSlug": "values-{{updateType}}"
     },
     {
-      "matchUpdateTypes": ["major"],
-      "groupName": "major updates",
-      "groupSlug": "major"
-    },
-    {
+      "description": "Auto-merge patch-level changes",
       "matchUpdateTypes": ["patch"],
       "groupName": "patch updates",
       "groupSlug": "patch",
@@ -40,6 +40,5 @@
       "platformAutomerge": true
     }
   ],
-  "prConcurrentLimit": 3,
   "prCreation": "immediate"
 }
