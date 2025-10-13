@@ -3,35 +3,57 @@
   "extends": [
     "config:best-practices"
   ],
-  "addLabels": ["automated"],
-  "assignees": ["snofox"],
+  "addLabels": [
+    "automated"
+  ],
+  "assignees": [
+    "snofox"
+  ],
   "kubernetes": {
-    "managerFilePatterns": ["/^apps/.*\\.ya?ml$/"]
+    "managerFilePatterns": [
+      "/^apps/.*\\.ya?ml$/"
+    ]
   },
   "helm-values": {
-    "managerFilePatterns": ["/^values/.*\\.ya?ml$/"]
+    "managerFilePatterns": [
+      "/^values/.*\\.ya?ml$/"
+    ]
   },
   "argocd": {
-    "managerFilePatterns": ["/^argo/.*\\.ya?ml$/"]
+    "managerFilePatterns": [
+      "/^argo/.*\\.ya?ml$/"
+    ]
   },
   "packageRules": [
     {
       "description": "Group updates by app directory and update type",
-      "matchPaths": ["apps/**"],
-      "matchUpdateTypes": ["minor", "major"],
+      "matchFileNames": [
+        "apps/**"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "major"
+      ],
       "groupName": "{{parentDir}} {{updateType}} updates",
       "groupSlug": "{{parentDir}}-{{updateType}}"
     },
     {
       "description": "Group updates in values directory by update type",
-      "matchPaths": ["values/**"],
-      "matchUpdateTypes": ["minor", "major"],
+      "matchFileNames": [
+        "values/**"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "major"
+      ],
       "groupName": "values {{updateType}} updates",
       "groupSlug": "values-{{updateType}}"
     },
     {
       "description": "Auto-merge patch-level changes",
-      "matchUpdateTypes": ["patch"],
+      "matchUpdateTypes": [
+        "patch"
+      ],
       "groupName": "patch updates",
       "groupSlug": "patch",
       "automerge": true,
