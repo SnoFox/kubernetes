@@ -47,7 +47,7 @@ spec:
               secretKeyRef:
                 name: recipes
                 key: postgresql-postgres-password
-        image: vabene1111/recipes:1.5.35
+        image: vabene1111/recipes:1.5.35@sha256:188da7487f777101c6abe996284df7966d9dd58c9b676447d5f880a5268a4393
         imagePullPolicy: Always
         resources:
           requests:
@@ -81,7 +81,7 @@ spec:
           subPath: files
       containers:
       - name: recipes-nginx
-        image: nginx:latest
+        image: nginx:latest@sha256:3b7732505933ca591ce4a6d860cb713ad96a3176b82f7979a8dfa9973486a0d6
         imagePullPolicy: IfNotPresent
         ports:
           - containerPort: 80
@@ -105,7 +105,7 @@ spec:
             subPath: nginx-config
             readOnly: true
       - name: recipes
-        image: vabene1111/recipes
+        image: vabene1111/recipes@sha256:650983bb4fb9f6941ad53c83b4cc94e4236d803c187034429c2eafe5e5ac098e
         imagePullPolicy: IfNotPresent
         command:
           - /opt/recipes/venv/bin/gunicorn

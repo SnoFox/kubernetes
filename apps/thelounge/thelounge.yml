@@ -36,7 +36,7 @@ spec:
       containers:
       - name: thelounge
         imagePullPolicy: Always
-        image: linuxserver/thelounge:4.4.3
+        image: linuxserver/thelounge:4.4.3@sha256:6ae5c9c616b981a8b0b27c441515790f3165c439579b9a985234f2f55ea8655a
         resources:
           requests:
             memory: "2Gi"

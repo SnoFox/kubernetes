@@ -97,7 +97,7 @@ spec:
           chmod 700 /bitnami/postgresql/data
           find /bitnami/postgresql -mindepth 0 -maxdepth 1 -not -name ".snapshot" -not -name "lost+found" | \
             xargs chown -R 1001:1001
-        image: docker.io/bitnami/minideb:stretch
+        image: docker.io/bitnami/minideb:stretch@sha256:a6f24bce85d037d47cc552635b0f0a3623472bbcf16b33711fb0fe4e6a34480f
         imagePullPolicy: Always
         name: init-chmod-data
         resources:

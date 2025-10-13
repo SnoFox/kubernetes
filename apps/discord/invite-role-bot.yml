@@ -16,7 +16,7 @@ spec:
         app: invite-role-bot
     spec:
       containers:
-      - image: snofox/invite-role-bot:latest
+      - image: snofox/invite-role-bot:latest@sha256:597293ed83a6e615c411968e0d1992c658428e823012c0ddf573e138013e7dc0
         imagePullPolicy: Always
         name: invite-role-bot
         terminationMessagePath: /dev/termination-log

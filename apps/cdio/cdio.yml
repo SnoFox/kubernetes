@@ -35,7 +35,7 @@ spec:
         - mountPath: /datastore
           name: data
       - name: sockpuppet
-        image: dgtlmoon/sockpuppetbrowser:latest
+        image: dgtlmoon/sockpuppetbrowser:latest@sha256:9f2df6791a4cd9b2c3138cb62b5a8de7f27953cab84729fe09d28cbd341a8973
         imagePullPolicy: Always
         env:
         - name: SCREEN_WIDTH
