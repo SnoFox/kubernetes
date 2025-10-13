@@ -31,9 +31,10 @@
       "matchUpdateTypes": ["patch"],
       "groupName": "patch updates",
       "groupSlug": "patch",
-      "automerge": false,
+      "automerge": true,
       "automergeType": "pr",
-      "automergeStrategy": "squash"
+      "automergeStrategy": "squash",
+      "platformAutomerge": true
     }
   ],
   "prConcurrentLimit": 3,
