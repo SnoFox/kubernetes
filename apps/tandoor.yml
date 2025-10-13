@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  namespace: argocd
+  name: tandoor
+  labels:
+    snofox.net/catagory: productivity
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: https://gitlab.com/SnoFox/kubernetes.git
+    path: apps/tandoor
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      enable: true
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
