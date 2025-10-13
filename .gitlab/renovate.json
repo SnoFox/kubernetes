@@ -11,6 +11,9 @@
   "helm-values": {
     "managerFilePatterns": ["/^values/.*\\.ya?ml$/"]
   },
+  "argocd": {
+    "managerFilePatterns": ["/^argo/.*\\.ya?ml$/"]
+  },
   "packageRules": [
     {
       "matchDatasources": ["helm"],

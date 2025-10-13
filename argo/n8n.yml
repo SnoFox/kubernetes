@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  namespace: argocd
+  name: n8n
+  labels:
+    snofox.net/catagory: productivity
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: n8n
+  sources:
+    - repoURL: 8gears.container-registry.com/library
+      chart: n8n
+      targetRevision: 1.0.15
+      helm:
+        valueFiles:
+        - $values/values/n8n.yml
+    - repoURL: https://gitlab.com/SnoFox/kubernetes.git
+      targetRevision: master
+      ref: values
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

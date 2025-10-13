@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  namespace: argocd
+  name: renovate
+  labels:
+    snofox.net/catagory: productivity
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: renovate
+  sources:
+    - repoURL: https://docs.renovatebot.com/helm-charts
+      chart: renovate
+      targetRevision: 44.15.1
+      helm:
+        valueFiles:
+        - $values/values/renovate.yml
+    - repoURL: https://gitlab.com/SnoFox/kubernetes.git
+      targetRevision: master
+      ref: values
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

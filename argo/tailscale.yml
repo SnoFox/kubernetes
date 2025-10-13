@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  namespace: argocd
+  name: tailscale
+  labels:
+    snofox.net/catagory: system
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: tailscale
+  sources:
+    - repoURL: https://gitlab.com/SnoFox/kubernetes.git
+      path: apps/tailscale
+      targetRevision: master
+    - repoURL: https://pkgs.tailscale.com/helmcharts
+      chart: tailscale-operator
+      targetRevision: 1.88.3
+      helm:
+        valueFiles:
+        - $values/values/tailscale.yml
+    - repoURL: https://gitlab.com/SnoFox/kubernetes.git
+      targetRevision: master
+      ref: values
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

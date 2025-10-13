@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  namespace: argocd
+  name: democratic-csi
+  labels:
+    snofox.net/catagory: system
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: democratic-csi
+  sources:
+    - repoURL: https://gitlab.com/SnoFox/kubernetes.git
+      path: apps/democratic-csi
+      targetRevision: master
+    - repoURL: https://democratic-csi.github.io/charts/
+      chart: democratic-csi
+      targetRevision: 0.15.0
+      helm:
+        releaseName: freenas-iscsi
+        valueFiles:
+        - $values/values/democratic-csi.yml
+    - repoURL: https://gitlab.com/SnoFox/kubernetes.git
+      targetRevision: master
+      ref: values
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    - Replace=false
