@@ -13,3 +13,11 @@ spec:
     repoURL: https://gitlab.com/SnoFox/kubernetes.git
     path: apps/karakeep
     targetRevision: HEAD
+  syncPolicy:
+    automated:
+      enable: true
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
