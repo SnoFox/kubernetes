@@ -27,7 +27,7 @@ patches:
   - patch: |-
       - op: replace
         path: /spec/type
-        value: LoadBalancer
+        value: ClusterIP
     target:
       kind: Service
       name: web
