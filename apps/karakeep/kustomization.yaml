@@ -25,6 +25,13 @@ patches:
     target:
       kind: PersistentVolumeClaim
   - patch: |-
+      - op: replace
+        path: /spec/type
+        value: LoadBalancer
+    target:
+      kind: Service
+      name: web
+  - patch: |-
       $patch: delete
       apiVersion: v1
       kind: Secret
