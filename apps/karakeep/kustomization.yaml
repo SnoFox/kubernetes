@@ -7,34 +7,28 @@ configMapGenerator:
   - envs:
     - env
     name: karakeep-configuration
+    behavior: replace
+
+generatorOptions:
+  disableNameSuffixHash: true
 
 resources:
-- namespace.yaml
-- secrets.yaml
-- ingress.yaml
-- web-deployment.yaml
-- web-service.yaml
-- chrome-deployment.yaml
-- chrome-service.yaml
-- meilisearch-deployment.yaml
-- meilisearch-service.yaml
-- meilisearch-pvc.yaml
-- data-pvc.yaml
+  - https://github.com/SnoFox/karakeep//kubernetes?ref=v0.27.2
+  - ingress.yaml
+  - secrets.yaml
 
-replacements:
-- source:
-    fieldPath: data.KARAKEEP_VERSION
-    kind: ConfigMap
-    name: karakeep-configuration
-    version: v1
-  targets:
-  - fieldPaths:
-    - spec.template.spec.containers.0.image
-    options:
-      delimiter: ':'
-      index: 1
-    select:
-      group: apps
-      kind: Deployment
-      name: web
-      version: v1
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/storageClassName
+        value: freenas-iscsi-csi
+    target:
+      kind: PersistentVolumeClaim
+  - patch: |-
+      $patch: delete
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: karakeep-secrets
+        namespace: karakeep
+
