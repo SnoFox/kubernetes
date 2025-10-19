@@ -1,5 +1,5 @@
 ---
-apiVersion: dynamodb.aws.upbound.io/v1beta1
+apiVersion: dynamodb.aws.m.upbound.io/v1beta1
 kind: Table
 metadata:
   name: external-dns
@@ -22,3 +22,4 @@ spec:
       Purpose: external-dns-registry
   providerConfigRef:
     name: tblflp-aws
+    kind: ClusterProviderConfig

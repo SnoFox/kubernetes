@@ -1,8 +1,9 @@
 ---
-apiVersion: iam.aws.upbound.io/v1beta1
+apiVersion: iam.aws.m.upbound.io/v1beta1
 kind: Policy
 metadata:
   name: external-dns-dynamodb-policy
+  namespace: external-dns
 spec:
   forProvider:
     description: Allow external-dns to read/write to its DynamoDB registry table
@@ -28,18 +29,53 @@ spec:
     tags:
       Name: external-dns-dynamodb-policy
       ManagedBy: crossplane
-      Purpose: external-dns-registry
+      Purpose: external-dns registry
   providerConfigRef:
     name: tblflp-aws
+    kind: ClusterProviderConfig
 ---
-apiVersion: iam.aws.upbound.io/v1beta1
-kind: RolePolicyAttachment
+apiVersion: iam.aws.m.upbound.io/v1beta1
+kind: User
 metadata:
-  name: external-dns-dynamodb-attachment
+  name: fmt-external-dns
+  namespace: external-dns
+spec:
+  forProvider:
+    tags:
+      Name: fmt-external-dns
+      ManagedBy: crossplane
+      Purpose: external-dns registry
+  providerConfigRef:
+    name: tblflp-aws
+    kind: ClusterProviderConfig
+---
+apiVersion: iam.aws.m.upbound.io/v1beta1
+kind: AccessKey
+metadata:
+  name: fmt-external-dns-creds
+  namespace: external-dns
+spec:
+  forProvider:
+    userRef:
+      name: fmt-external-dns
+      namespace: external-dns
+  writeConnectionSecretToRef:
+    name: external-dns-secret
+  providerConfigRef:
+    name: tblflp-aws
+    kind: ClusterProviderConfig
+---
+apiVersion: iam.aws.m.upbound.io/v1beta1
+kind: UserPolicyAttachment
+metadata:
+  name: fmt-external-dns
+  namespace: external-dns
 spec:
   forProvider:
     policyArnRef:
       name: external-dns-dynamodb-policy
-    role: Tableflippers-K8s # TODO: Get this role managed by Crossplane
+    userRef:
+      name: fmt-external-dns
   providerConfigRef:
     name: tblflp-aws
+    kind: ClusterProviderConfig

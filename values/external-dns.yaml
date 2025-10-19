@@ -9,12 +9,12 @@ env:
 - name: AWS_ACCESS_KEY_ID
   valueFrom:
     secretKeyRef:
-      name: r53-creds
-      key: access-key
+      name: external-dns-secret
+      key: username
 - name: AWS_SECRET_ACCESS_KEY
   valueFrom:
     secretKeyRef:
-      name: r53-creds
-      key: secret-key
+      name: external-dns-secret
+      key: password
 - name: AWS_DEFAULT_REGION
   value: us-west-2
