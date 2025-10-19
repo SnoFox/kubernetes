@@ -9,16 +9,21 @@ spec:
     description: Allow external-dns to read/write to its DynamoDB registry table
     policy: |
       {
-        "Effect": "Allow",
-        "Action": [
-          "DynamoDB:DescribeTable",
-          "DynamoDB:PartiQLDelete",
-          "DynamoDB:PartiQLInsert",
-          "DynamoDB:PartiQLUpdate",
-          "DynamoDB:Scan"
-        ],
-        "Resource": [
-          "arn:aws:dynamodb:us-west-2:*:table/external-dns"
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Action": [
+              "DynamoDB:DescribeTable",
+              "DynamoDB:PartiQLDelete",
+              "DynamoDB:PartiQLInsert",
+              "DynamoDB:PartiQLUpdate",
+              "DynamoDB:Scan"
+            ],
+            "Resource": [
+              "arn:aws:dynamodb:us-west-2:*:table/external-dns"
+            ]
+          }
         ]
       }
     tags:
