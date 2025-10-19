@@ -68,7 +68,7 @@ spec:
 apiVersion: iam.aws.m.upbound.io/v1beta1
 kind: UserPolicyAttachment
 metadata:
-  name: fmt-external-dns
+  name: fmt-external-dns-dynamodb
   namespace: external-dns
 spec:
   forProvider:
@@ -83,7 +83,7 @@ spec:
 apiVersion: iam.aws.m.upbound.io/v1beta1
 kind: UserPolicyAttachment
 metadata:
-  name: fmt-external-dns
+  name: fmt-external-dns-r53
   namespace: external-dns
 spec:
   forProvider:
