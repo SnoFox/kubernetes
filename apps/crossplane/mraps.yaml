@@ -2,6 +2,8 @@ apiVersion: apiextensions.crossplane.io/v1alpha1
 kind: ManagedResourceActivationPolicy
 metadata:
   name: default
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   activate:
     - "*.iam.aws.m.upbound.io"
