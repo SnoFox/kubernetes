@@ -6,6 +6,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   activate:
+    - "providerconfigs.aws.m.upbound.io"
+    - "clusterproviderconfigs.aws.m.upbound.io"
     - "*.iam.aws.m.upbound.io"
     - "*.dynamodb.aws.m.upbound.io"
-    - "providerconfigs.aws.upbound.io" # Global ProviderConfigs
