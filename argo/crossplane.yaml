@@ -16,7 +16,7 @@ spec:
       targetRevision: 2.0.2
       helm:
         valueFiles:
-        - $values/values/crossplane.yml
+        - $values/values/crossplane.yaml
     - repoURL: https://gitlab.com/SnoFox/kubernetes.git
       targetRevision: HEAD
       ref: values
