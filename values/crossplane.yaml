@@ -1,0 +1,8 @@
+extraObjects:
+  - apiVersion: onepassword.com/v1
+    kind: OnePasswordItem
+    metadata:
+      name: aws-secrets
+      namespace: crossplane
+    spec:
+      itemPath: "vaults/FMT/items/crossplane:aws-secrets"

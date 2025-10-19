@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  namespace: argocd
+  name: crossplane
+  labels:
+    snofox.net/catagory: system
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: crossplane
+  sources:
+    - repoURL: https://charts.crossplane.io/stable
+      chart: crossplane
+      targetRevision: 1.0.15
+      helm:
+        valueFiles:
+        - $values/values/crossplane.yml
+    - repoURL: https://gitlab.com/SnoFox/kubernetes.git
+      targetRevision: HEAD
+      ref: values
+    - repoURL: https://gitlab.com/SnoFox/kubernetes.git
+      targetRevision: HEAD
+      path: apps/crossplane
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

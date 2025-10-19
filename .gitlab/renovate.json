@@ -24,6 +24,11 @@
       "/^argo/.*\\.ya?ml$/"
     ]
   },
+  "crossplane": {
+    "managerFilePatterns": [
+      "/^apps/crossplane/providers.yaml$/"
+    ]
+  },
   "packageRules": [
     {
       "description": "Group updates by app directory and update type",
