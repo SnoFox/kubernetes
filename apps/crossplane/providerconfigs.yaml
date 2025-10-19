@@ -1,6 +1,6 @@
 ---
 apiVersion: aws.m.upbound.io/v1beta1
-kind: ProviderConfig
+kind: ClusterProviderConfig
 metadata:
   name: tblflp-aws
   annotations:
