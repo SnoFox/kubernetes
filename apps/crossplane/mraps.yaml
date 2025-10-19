@@ -1,8 +1,9 @@
 apiVersion: apiextensions.crossplane.io/v1alpha1
 kind: ManagedResourceActivationPolicy
 metadata:
-  name: modern-only
+  name: default
 spec:
   activate:
     - "*.iam.aws.m.upbound.io"
     - "*.dynamodb.aws.m.upbound.io"
+    - "providerconfigs.aws.upbound.io" # Global ProviderConfigs
