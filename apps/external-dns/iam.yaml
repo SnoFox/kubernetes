@@ -5,7 +5,6 @@ metadata:
   name: external-dns-dynamodb-policy
 spec:
   forProvider:
-    name: external-dns-dynamodb-access
     description: Allow external-dns to read/write to its DynamoDB registry table
     policy: |
       {
@@ -39,9 +38,8 @@ metadata:
   name: external-dns-dynamodb-attachment
 spec:
   forProvider:
-    policyArnSelector:
-      matchLabels:
-        crossplane.io/claim-name: external-dns-dynamodb-policy
+    policyArnRef:
+      name: external-dns-dynamodb-policy
     role: Tableflippers-K8s # TODO: Get this role managed by Crossplane
   providerConfigRef:
     name: tblflp-aws
