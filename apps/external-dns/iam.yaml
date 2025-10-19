@@ -79,3 +79,18 @@ spec:
   providerConfigRef:
     name: tblflp-aws
     kind: ClusterProviderConfig
+---
+apiVersion: iam.aws.m.upbound.io/v1beta1
+kind: UserPolicyAttachment
+metadata:
+  name: fmt-external-dns
+  namespace: external-dns
+spec:
+  forProvider:
+    policyArn:
+      name: arn:aws:iam::aws:policy/AmazonRoute53FullAccess
+    userRef:
+      name: fmt-external-dns
+  providerConfigRef:
+    name: tblflp-aws
+    kind: ClusterProviderConfig
