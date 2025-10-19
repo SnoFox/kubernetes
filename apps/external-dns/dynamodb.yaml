@@ -1,0 +1,24 @@
+---
+apiVersion: dynamodb.aws.upbound.io/v1beta1
+kind: Table
+metadata:
+  name: external-dns
+  annotations:
+    crossplane.io/external-name: external-dns
+spec:
+  forProvider:
+    region: us-west-2
+    tableClass: STANDARD
+    billingMode: PROVISIONED
+    readCapacity: 5
+    writeCapacity: 5
+    hashKey: k
+    attribute:
+      - name: k
+        type: S
+    tags:
+      Name: external-dns
+      ManagedBy: crossplane
+      Purpose: external-dns-registry
+  providerConfigRef:
+    name: tblflp-aws

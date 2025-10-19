@@ -1,0 +1,43 @@
+---
+apiVersion: iam.aws.upbound.io/v1beta1
+kind: Policy
+metadata:
+  name: external-dns-dynamodb-policy
+spec:
+  forProvider:
+    name: external-dns-dynamodb-access
+    description: Allow external-dns to read/write to its DynamoDB registry table
+    policy: |
+      {
+        "Effect": "Allow",
+        "Action": [
+          "DynamoDB:DescribeTable",
+          "DynamoDB:PartiQLDelete",
+          "DynamoDB:PartiQLInsert",
+          "DynamoDB:PartiQLUpdate",
+          "DynamoDB:Scan"
+        ],
+        "Resource": [
+          "arn:aws:dynamodb:us-west-2:*:table/external-dns"
+        ]
+      }
+    tags:
+      - key: Name
+        value: external-dns-dynamodb-policy
+      - key: ManagedBy
+        value: crossplane
+  providerConfigRef:
+    name: tblflp-aws
+---
+apiVersion: iam.aws.upbound.io/v1beta1
+kind: RolePolicyAttachment
+metadata:
+  name: external-dns-dynamodb-attachment
+spec:
+  forProvider:
+    policyArnSelector:
+      matchLabels:
+        crossplane.io/claim-name: external-dns-dynamodb-policy
+    role: Tableflippers-K8s # TODO: Get this role managed by Crossplane
+  providerConfigRef:
+    name: tblflp-aws
