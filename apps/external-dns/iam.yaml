@@ -87,8 +87,7 @@ metadata:
   namespace: external-dns
 spec:
   forProvider:
-    policyArn:
-      name: arn:aws:iam::aws:policy/AmazonRoute53FullAccess
+    policyArn: arn:aws:iam::aws:policy/AmazonRoute53FullAccess
     userRef:
       name: fmt-external-dns
   providerConfigRef:
