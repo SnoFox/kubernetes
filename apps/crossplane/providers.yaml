@@ -3,6 +3,8 @@ apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
   name: upbound-provider-aws-dynamodb
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   package: xpkg.crossplane.io/crossplane-contrib/provider-aws-dynamodb:v2.0.0
 ---
@@ -10,5 +12,7 @@ apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
   name: upbound-provider-aws-iam
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   package: xpkg.crossplane.io/crossplane-contrib/provider-aws-iam:v2.0.0
