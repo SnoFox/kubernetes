@@ -3,9 +3,8 @@ sources:
   - ingress
 policy: upsert-only
 
-registry: txt # TODO: move to dynamodb later
-txtOwnerId: holo
-txtPrefix: ext-dns
+registry: dynamodb
+txtOwnerId: fmt
 env:
 - name: AWS_ACCESS_KEY_ID
   valueFrom:
@@ -18,4 +17,4 @@ env:
       name: r53-creds
       key: secret-key
 - name: AWS_DEFAULT_REGION
-  value: us-east-1
+  value: us-west-2
