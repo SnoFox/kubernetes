@@ -22,10 +22,9 @@ spec:
         ]
       }
     tags:
-      - key: Name
-        value: external-dns-dynamodb-policy
-      - key: ManagedBy
-        value: crossplane
+      Name: external-dns-dynamodb-policy
+      ManagedBy: crossplane
+      Purpose: external-dns-registry
   providerConfigRef:
     name: tblflp-aws
 ---
