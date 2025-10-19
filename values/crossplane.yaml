@@ -1,3 +1,5 @@
+provider:
+  defaultActivations: {}
 extraObjects:
   - apiVersion: onepassword.com/v1
     kind: OnePasswordItem
