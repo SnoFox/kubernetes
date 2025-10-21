@@ -72,7 +72,7 @@
         "nginx-alpine-slim"
       ],
       "matchUpdateTypes": [
-        "digest"
+        "digest", "pinDigest"
       ],
       "automerge": true,
       "automergeType": "pr",
