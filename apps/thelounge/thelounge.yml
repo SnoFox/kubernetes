@@ -29,14 +29,12 @@ spec:
     metadata:
       labels:
         app: thelounge
-      annotations:
-        diun.enable: "true"
     spec:
       nodeName: holo.snofox.net
       containers:
       - name: thelounge
         imagePullPolicy: Always
-        image: linuxserver/thelounge:4.4.3@sha256:6ae5c9c616b981a8b0b27c441515790f3165c439579b9a985234f2f55ea8655a
+        image: ghcr.io/thelounge/thelounge:4.4.3@sha256:c2aa0916203b298ffaf3a36c4eb60ef73c1006448d430e218d37840472e84e50
         resources:
           requests:
             memory: "2Gi"
@@ -53,7 +51,7 @@ spec:
           value: "1000"
         volumeMounts:
         - name: configdir
-          mountPath: /config
+          mountPath: /var/opt/thelounge
   volumeClaimTemplates:
     - metadata:
         name: configdir
