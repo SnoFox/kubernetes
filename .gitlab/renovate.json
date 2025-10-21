@@ -65,6 +65,19 @@
       "automergeType": "pr",
       "automergeStrategy": "squash",
       "platformAutomerge": true
+    },
+    {
+      "description": "Auto-merge digest updates for nginx-alpine-slim",
+      "matchPackageNames": [
+        "nginx-alpine-slim"
+      ],
+      "matchUpdateTypes": [
+        "digest"
+      ],
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash",
+      "platformAutomerge": true
     }
   ],
   "prCreation": "immediate"
