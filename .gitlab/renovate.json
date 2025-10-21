@@ -67,9 +67,9 @@
       "platformAutomerge": true
     },
     {
-      "description": "Auto-merge digest updates for nginx-alpine-slim",
+      "description": "Auto-merge digest updates for nginx-unprivileged",
       "matchPackageNames": [
-        "nginx-alpine-slim"
+        "nginx-unprivileged"
       ],
       "matchUpdateTypes": [
         "digest", "pinDigest"
