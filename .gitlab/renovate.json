@@ -75,7 +75,7 @@
         "digest", "pinDigest"
       ],
       "automerge": true,
-      "automergeType": "pr",
+      "automergeType": "branch",
       "automergeStrategy": "squash",
       "platformAutomerge": true
     }
