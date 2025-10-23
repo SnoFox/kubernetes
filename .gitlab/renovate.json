@@ -69,7 +69,7 @@
     {
       "description": "Auto-merge digest updates for nginx-unprivileged",
       "matchPackageNames": [
-        "nginx-unprivileged"
+        "*/nginx-unprivileged"
       ],
       "matchUpdateTypes": [
         "digest", "pinDigest"
