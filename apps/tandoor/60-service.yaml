@@ -11,11 +11,7 @@ spec:
     app: recipes
     tier: frontend
   ports:
-  - port: 80
+  - port: 8080
     targetPort: http
     name: http
-    protocol: TCP
-  - port: 8080
-    targetPort: gunicorn
-    name: gunicorn
     protocol: TCP
