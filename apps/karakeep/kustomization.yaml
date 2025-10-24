@@ -38,4 +38,8 @@ patches:
       metadata:
         name: karakeep-secrets
         namespace: karakeep
+  - patch: |-
+      $patch: delete
+      apiVersion: v1
+      kind: Namespace
 
