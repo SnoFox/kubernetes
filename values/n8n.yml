@@ -18,6 +18,8 @@ ingress:
 main:
   # See https://docs.n8n.io/hosting/configuration/environment-variables/ for all values.
   config:
+    generic:
+      timezone: America/Los_Angeles
     n8n:
      host: *hostname
      protocol: https
@@ -39,8 +41,6 @@ main:
       postgresdb:
         host: pg-rw
   extraEnv:
-    GENERIC_TIMEZONE:
-      value: America/Los_Angeles
     N8N_LICENSE_ACTIVATION_KEY:
       valueFrom:
         secretKeyRef:
