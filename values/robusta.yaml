@@ -55,12 +55,11 @@ sinksConfig:
     name: robusta_ui_sink
     token: '{{ env.ROBUSTA_UI_TOKEN }}'
 kube-prometheus-stack:
+  fullnameOverride: "robusta-prom"
   prometheus:
     prometheusSpec:
       storageSpec:
         volumeClaimTemplate:
-          metadata:
-            name: robusta-prom-data
           spec:
             storageClassName: "freenas-iscsi-csi"
             accessModes: ["ReadWriteOnce"]
