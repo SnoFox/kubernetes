@@ -54,3 +54,14 @@ sinksConfig:
 - robusta_sink:
     name: robusta_ui_sink
     token: '{{ env.ROBUSTA_UI_TOKEN }}'
+kube-prometheus-stack:
+  prometheus:
+    prometheusSpec:
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: "freenas-iscsi-csi"
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 100Gi
