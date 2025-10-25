@@ -59,6 +59,8 @@ kube-prometheus-stack:
     prometheusSpec:
       storageSpec:
         volumeClaimTemplate:
+          metadata:
+            name: robusta-prom-data
           spec:
             storageClassName: "freenas-iscsi-csi"
             accessModes: ["ReadWriteOnce"]
