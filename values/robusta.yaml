@@ -1,0 +1,56 @@
+clusterName: Fremont
+enableHolmesGPT: true
+enablePlatformPlaybooks: true
+enablePrometheusStack: true
+enabledManagedConfiguration: true
+globalConfig:
+  account_id: '{{ env.ACCOUNT_ID }}'
+  signing_key: '{{ env.SIGNING_KEY }}'
+holmes:
+  additionalEnvVars:
+  - name: ROBUSTA_AI
+    value: 'true'
+  - name: ROBUSTA_UI_TOKEN
+    valueFrom:
+      secretKeyRef:
+        key: robusta_ui_token
+        name: robusta-secrets
+  resources:
+    requests:
+      memory: 512Mi
+isSmallCluster: true
+kube_prometheus_stack:
+  prometheus:
+    prometheusSpec:
+      resources:
+        requests:
+          memory: 512Mi
+      retentionSize: 9GB
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            resources:
+              requests:
+                storage: 10Gi
+runner:
+  additional_env_vars:
+  - name: ROBUSTA_UI_TOKEN
+    valueFrom:
+      secretKeyRef:
+        key: robusta_ui_token
+        name: robusta-secrets
+  - name: ACCOUNT_ID
+    valueFrom:
+      secretKeyRef:
+        key: account_id
+        name: robusta-secrets
+  - name: SIGNING_KEY
+    valueFrom:
+      secretKeyRef:
+        key: signing_key
+        name: robusta-secrets
+  sendAdditionalTelemetry: true
+sinksConfig:
+- robusta_sink:
+    name: robusta_ui_sink
+    token: '{{ env.ROBUSTA_UI_TOKEN }}'
