@@ -73,6 +73,7 @@ sinksConfig:
     name: personal_telegram_sink
     bot_token: '{{ env.TELEGRAM_BOT_TOKEN }}'
     chat_id: '{{ env.TELEGRAM_CHAT_ID }}'
+    send_files: false
     scope:
       include:
         - severity: HIGH
