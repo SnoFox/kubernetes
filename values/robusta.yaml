@@ -49,11 +49,36 @@ runner:
       secretKeyRef:
         key: signing_key
         name: robusta-secrets
+  - name: TELEGRAM_BOT_TOKEN
+    valueFrom:
+      secretKeyRef:
+        key: telegram_bot_token
+        name: robusta-secrets
+  - name: TELEGRAM_CHAT_ID
+    valueFrom:
+      secretKeyRef:
+        key: telegram_chat_id
+        name: robusta-secrets
+  - name: DISCORD_WEBHOOK
+    valueFrom:
+      secretKeyRef:
+        key: discord_webhook
+        name: robusta-secrets
   sendAdditionalTelemetry: true
 sinksConfig:
 - robusta_sink:
     name: robusta_ui_sink
     token: '{{ env.ROBUSTA_UI_TOKEN }}'
+- telegram_sink:
+    name: personal_telegram_sink
+    bot_token: '{{ env.TELEGRAM_BOT_TOKEN }}'
+    chat_id: '{{ env.TELEGRAM_CHAT_ID }}'
+    scope:
+      include:
+        - severity: HIGH
+- discord_sink:
+    name: personal_discord_sink
+    url: '{{ env.DISCORD_WEBHOOK }}'
 kube-prometheus-stack:
   fullnameOverride: "robusta-prom"
   prometheus:
