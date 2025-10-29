@@ -78,7 +78,18 @@
       "automergeType": "branch",
       "automergeStrategy": "squash",
       "platformAutomerge": true
+    },
+    {
+      "description": "Auto-merge digest pins",
+      "matchUpdateTypes": [
+        "pinDigest"
+      ],
+      "automerge": true,
+      "automergeType": "branch",
+      "automergeStrategy": "squash",
+      "platformAutomerge": true
     }
+
   ],
   "prCreation": "immediate"
 }
