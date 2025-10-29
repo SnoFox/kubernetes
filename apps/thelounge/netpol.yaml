@@ -23,7 +23,7 @@ spec:
           tailscale.com/parent-resource-ns: irc
     ports:
     - protocol: TCP
-      port: 80
+      port: 9000
   egress:
   - to:
     - namespaceSelector:
