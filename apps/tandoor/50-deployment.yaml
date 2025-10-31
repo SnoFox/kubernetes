@@ -7,6 +7,7 @@ metadata:
     app: recipes
     tier: frontend
 spec:
+  revisionHistoryLimit: 3
   replicas: 1
   strategy:
     type: Recreate
@@ -15,8 +16,6 @@ spec:
       app: recipes
   template:
     metadata:
-      annotations:
-        operator.1password.io/last-restarted: never
       labels:
         app: recipes
         tier: frontend
@@ -35,18 +34,21 @@ spec:
           - name: DB_ENGINE
             value: django.db.backends.postgresql
           - name: POSTGRES_HOST
-            value: recipes-postgresql
+            value: recipes-pg-rw
           - name: POSTGRES_PORT
             value: "5432"
-          - name: POSTGRES_USER
-            value: postgres
           - name: POSTGRES_DB
             value: recipes
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: recipes-pg
+                key: username
           - name: POSTGRES_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: recipes
-                key: postgresql-postgres-password
+                name: recipes-pg
+                key: password
         image: vabene1111/recipes:2.3.3@sha256:af6bd76e703d644748a93d581da05c25159d742b94b2da9eddadaaec93555858
         imagePullPolicy: Always
         resources:
@@ -153,18 +155,21 @@ spec:
           - name: DB_ENGINE
             value: django.db.backends.postgresql
           - name: POSTGRES_HOST
-            value: recipes-postgresql
+            value: recipes-pg-rw
           - name: POSTGRES_PORT
             value: "5432"
-          - name: POSTGRES_USER
-            value: postgres
           - name: POSTGRES_DB
             value: recipes
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: recipes-pg
+                key: username
           - name: POSTGRES_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: recipes
-                key: postgresql-postgres-password
+                name: recipes-pg
+                key: password
         securityContext:
           runAsUser: 65534
       volumes:

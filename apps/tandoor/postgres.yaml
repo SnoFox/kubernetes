@@ -1,0 +1,49 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: recipes-pg
+  namespace: tandoor
+  labels:
+    app: recipes
+    tier: database
+spec:
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.6-202510270807-system-trixie
+  instances: 1
+  storage:
+    storageClass: "freenas-iscsi-csi"
+    size: 2Gi
+  bootstrap:
+    initdb:
+      database: recipes
+      owner: recipes
+      secret:
+        name: recipes-pg
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: recipes
+  namespace: tandoor
+spec:
+  podSelector: 
+    matchLabels:
+      app: recipes
+      tier: database
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - recipes
+          - key: tier
+            operator: In
+            values:
+            - frontend
+    ports:
+    - protocol: TCP
+      port: 5432
