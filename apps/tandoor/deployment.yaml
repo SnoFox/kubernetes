@@ -25,20 +25,12 @@ spec:
       serviceAccountName: recipes
       initContainers:
       - name: init-chmod-data
+        envFrom:
+        - configMapRef:
+            name: tandoor-config
+        - secretRef:
+            name: recipes
         env:
-          - name: SECRET_KEY
-            valueFrom:
-              secretKeyRef:
-                name: recipes
-                key: secret-key
-          - name: DB_ENGINE
-            value: django.db.backends.postgresql
-          - name: POSTGRES_HOST
-            value: recipes-pg-rw
-          - name: POSTGRES_PORT
-            value: "5432"
-          - name: POSTGRES_DB
-            value: recipes
           - name: POSTGRES_USER
             valueFrom:
               secretKeyRef:
@@ -140,26 +132,12 @@ spec:
             name: static
             # mount as subPath due to lost+found on ext4 pvc
             subPath: files
+        envFrom:
+        - configMapRef:
+            name: tandoor-config
+        - secretRef:
+            name: recipes
         env:
-          - name: DEBUG
-            value: "0"
-          - name: ALLOWED_HOSTS
-            value: '*'
-          - name: SECRET_KEY
-            valueFrom:
-              secretKeyRef:
-                name: recipes
-                key: secret-key
-          - name: GUNICORN_MEDIA
-            value: "0"
-          - name: DB_ENGINE
-            value: django.db.backends.postgresql
-          - name: POSTGRES_HOST
-            value: recipes-pg-rw
-          - name: POSTGRES_PORT
-            value: "5432"
-          - name: POSTGRES_DB
-            value: recipes
           - name: POSTGRES_USER
             valueFrom:
               secretKeyRef:
