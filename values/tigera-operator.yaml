@@ -1,0 +1,6 @@
+# Disable Helm-managed Tigera configs
+# Configure via ArgoCD-managed YAMLs in SnoFox/k8s
+installation:
+  enabled: false
+defaultFelixConfiguration:
+  enabled: false

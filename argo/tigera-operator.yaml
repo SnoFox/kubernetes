@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  namespace: argocd
+  name: tigera-operator
+  labels:
+    snofox.net/catagory: system
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: tigera-operator
+  sources:
+    - repoURL: https://projectcalico.docs.tigera.io/charts
+      chart: tigera-operator
+      targetRevision: v3.28.0
+      helm:
+        valueFiles:
+        - $values/values/tigera-operator.yaml
+    - repoURL: https://gitlab.com/SnoFox/kubernetes.git
+      targetRevision: HEAD
+      ref: values
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
