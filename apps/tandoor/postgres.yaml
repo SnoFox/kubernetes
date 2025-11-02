@@ -34,6 +34,7 @@ spec:
   - Ingress
   ingress:
   - from:
+    # Allow tandoor to pg
     - podSelector:
         matchExpressions:
           - key: app
@@ -44,6 +45,13 @@ spec:
             operator: In
             values:
             - frontend
+    # Allow cnpg operator
+    - podSelector:
+        matchExpressions:
+          - key: app.kubernetes.io/instance
+            operator: In
+            values:
+            - cnpg
     ports:
     - protocol: TCP
       port: 5432
