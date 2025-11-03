@@ -1,0 +1,17 @@
+---
+apiVersion: projectcalico.org/v3
+kind: FelixConfiguration
+metadata:
+  name: default
+spec:
+  logSeverityScreen: "Info"
+  healthEnabled: true
+  # default is 0xffff0000, which conflicts with Tailscale
+  iptablesMarkMask: "0xff00ff00"
+  defaultEndpointToHostAction: Accept
+  ipipMTU: 1480
+  ipipEnabled: true
+  logFilePath: "none"
+  prometheusMetricsEnabled: true
+  prometheusWireGuardMetricsEnabled: false
+  reportingInterval: 0s

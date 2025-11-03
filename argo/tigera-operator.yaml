@@ -20,6 +20,14 @@ spec:
     - repoURL: https://gitlab.com/SnoFox/kubernetes.git
       targetRevision: HEAD
       ref: values
+    - repoURL: https://gitlab.com/SnoFox/kubernetes.git
+      path: apps/tigera-operator
+      targetRevision: HEAD
+    # Contains non-secret, but useful networking config
+    # To those looking to hire me, it's BGP + some IPPools using IPIP
+    - repoURL: https://gitlab.com/SnoFox/k8s.git
+      path: apps/tigera-operator
+      targetRevision: HEAD
   syncPolicy:
     automated:
       prune: true
