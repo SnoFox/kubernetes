@@ -2,15 +2,14 @@ apiVersion: crd.projectcalico.org/v1
 kind: FelixConfiguration
 metadata:
   annotations:
-    operator.tigera.io/bpfEnabled: "true"
+    operator.tigera.io/bpfEnabled: "false"
   name: default
 spec:
   logSeverityScreen: Info
-  bpfEnabled: true
-  ipipEnabled: false
-  vxlanEnabled: false
+  bpfEnabled: false
   bpfLogLevel: ""
   healthPort: 9099
+  ipipEnabled: true
   # default is 0xffff0000, which conflicts with Tailscale
   # apply 0xff00ff00 instead
   iptablesMarkMask: 4278255360
