@@ -3,10 +3,16 @@ kind: ConfigMap
 metadata:
   name: argocd-cm
 data:
+  # Ignore .spec.externalName on Tailscale-annotated Services (tailscale-operator controls this)
   resource.customizations.ignoreDifferences.Service: |
     jqPathExpressions:
     - 'select(.metadata.annotations."tailscale.com/tailnet-ip" != null or .metadata.annotations."tailscale.com/tailnet-fqdn" != null) | .spec.externalName'
+  # Ignore restart timestamps on Deployments
   resource.customizations.ignoreDifferences.apps_Deployment: |
     jqPathExpressions:
     - '.spec.template.metadata.annotations["operator.1password.io/last-restarted"]'
     - '.spec.template.metadata.annotations["kubectl.kubernetes.io/restartedAt"]'
+  # Ignore preserveUnknownFields on all CRDs (gets stripped by normalization)
+  resource.customizations.ignoreDifferences.apiextensions.k8s.io_CustomResourceDefinition: |
+    jqPathExpressions:
+    - .spec.preserveUnknownFields
