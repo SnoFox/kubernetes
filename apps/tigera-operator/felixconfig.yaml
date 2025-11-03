@@ -1,20 +1,23 @@
----
 apiVersion: projectcalico.org/v3
 kind: FelixConfiguration
 metadata:
-  name: default
   annotations:
-    # Apply after Installation
+    operator.tigera.io/bpfEnabled: "false"
+    # Apply after Installation (calico CRD)
+    # Will need to manually, partially sync this anyway
     argocd.argoproj.io/sync-wave: "1"
+  name: default
 spec:
-  logSeverityScreen: "Info"
-  healthEnabled: true
-  # default is 0xffff0000, which conflicts with Tailscale
-  iptablesMarkMask: "0xff00ff00"
-  defaultEndpointToHostAction: Accept
-  ipipMTU: 1480
+  logSeverityScreen: Info
+  bpfEnabled: false
+  bpfLogLevel: ""
+  healthPort: 9099
   ipipEnabled: true
+  # default is 0xffff0000, which conflicts with Tailscale
+  # apply 0xff00ff00 instead
+  iptablesMarkMask: 4278255360
+  reportingInterval: 0s
+  vxlanVNI: 4096
   logFilePath: "none"
   prometheusMetricsEnabled: true
   prometheusWireGuardMetricsEnabled: false
-  reportingInterval: 0s
