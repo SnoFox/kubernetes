@@ -1,11 +1,8 @@
-apiVersion: projectcalico.org/v3
+apiVersion: crd.projectcalico.org/v1
 kind: FelixConfiguration
 metadata:
   annotations:
     operator.tigera.io/bpfEnabled: "false"
-    # Apply after Installation (calico CRD)
-    # Will need to manually, partially sync this anyway
-    argocd.argoproj.io/sync-wave: "1"
   name: default
 spec:
   logSeverityScreen: Info
