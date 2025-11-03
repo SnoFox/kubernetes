@@ -1,0 +1,17 @@
+---
+apiVersion: operator.tigera.io/v1
+kind: Installation
+metadata:
+  name: default
+spec:
+  calicoNetwork:
+    bgp: Enabled
+    mtu: 1480
+  cni:
+    type: Calico
+    ipam:
+      type: Calico
+  controlPlaneTolerations:
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/control-plane
+      operator: Exists
