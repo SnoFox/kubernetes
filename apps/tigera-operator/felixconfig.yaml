@@ -3,6 +3,9 @@ apiVersion: projectcalico.org/v3
 kind: FelixConfiguration
 metadata:
   name: default
+  annotations:
+    # Apply after Installation
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   logSeverityScreen: "Info"
   healthEnabled: true
