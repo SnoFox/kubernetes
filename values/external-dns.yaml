@@ -18,3 +18,8 @@ env:
       key: password
 - name: AWS_DEFAULT_REGION
   value: us-west-2
+
+tolerations:
+  - key: CriticalAddonsOnly
+    operator: Exists
+    effect: NoSchedule

@@ -65,6 +65,10 @@ runner:
         key: discord_webhook
         name: robusta-secrets
   sendAdditionalTelemetry: true
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+      effect: NoSchedule
 sinksConfig:
 - robusta_sink:
     name: robusta_ui_sink
@@ -106,3 +110,8 @@ kube-prometheus-stack:
             resources:
               requests:
                 storage: 10Gi
+kubewatch:
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+      effect: NoSchedule
