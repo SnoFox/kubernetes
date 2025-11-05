@@ -98,6 +98,10 @@ kube-prometheus-stack:
             resources:
               requests:
                 storage: 100Gi
+      tolerations:
+        - key: CriticalAddonsOnly
+          operator: Exists
+          effect: NoSchedule
   alertmanager:
     alertmanagerSpec:
       storage:
@@ -110,6 +114,10 @@ kube-prometheus-stack:
             resources:
               requests:
                 storage: 10Gi
+      tolerations:
+        - key: CriticalAddonsOnly
+          operator: Exists
+          effect: NoSchedule
 kubewatch:
   tolerations:
     - key: CriticalAddonsOnly
