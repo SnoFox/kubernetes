@@ -15,7 +15,7 @@ tolerations:
     effect: NoSchedule
 webhook:
   replicaCount: 2
- podDisruptionBudget:
+  podDisruptionBudget:
     enabled: true
     minAvailable: 1
   networkPolicy:
@@ -26,7 +26,7 @@ webhook:
       effect: NoSchedule
 cainjector:
   replicaCount: 2
- podDisruptionBudget:
+  podDisruptionBudget:
     enabled: true
     minAvailable: 1
   tolerations:
