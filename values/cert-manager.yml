@@ -33,3 +33,8 @@ cainjector:
     - key: CriticalAddonsOnly
       operator: Exists
       effect: NoSchedule
+startupapicheck:
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+      effect: NoSchedule

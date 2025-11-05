@@ -70,6 +70,7 @@ controller:
   # deployment = deploy controller parts in a distinct deployment
   # node       = deploy controller as sidecars with node daemonset
   strategy: deployment
+  replicaCount: 2
   driver:
     enabled: true
     logLevel: debug
@@ -86,6 +87,10 @@ controller:
           secretKeyRef:
             name: driver-secrets
             key: truenas_api_token
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+      effect: NoSchedule
 
 node:
   driver:
@@ -104,6 +109,10 @@ node:
           secretKeyRef:
             name: driver-secrets
             key: truenas_api_token
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+      effect: NoSchedule
 
 # TODO: if I ever recreate this StorageClass, consider the following:
 # - Make this the default class
