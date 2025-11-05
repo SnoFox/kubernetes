@@ -9,7 +9,7 @@ metadata:
     tier: database
 spec:
   imageName: ghcr.io/cloudnative-pg/postgresql:17.6-202510270807-system-trixie
-  instances: 1
+  instances: 2
   storage:
     storageClass: "freenas-iscsi-csi"
     size: 2Gi
