@@ -5,3 +5,31 @@ ingressShim:
   defaultIssuerName: letsencrypt-prod
   defaultIssuerKind: ClusterIssuer
   defaultIssuerGroup: cert-manager.io
+enableCertificateOwnerRef: true
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+tolerations:
+  - key: CriticalAddonsOnly
+    operator: Exists
+    effect: NoSchedule
+webhook:
+  replicaCount: 2
+ podDisruptionBudget:
+    enabled: true
+    minAvailable: 1
+  networkPolicy:
+    enabled: true
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+      effect: NoSchedule
+cainjector:
+  replicaCount: 2
+ podDisruptionBudget:
+    enabled: true
+    minAvailable: 1
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+      effect: NoSchedule
