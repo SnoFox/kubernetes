@@ -4,3 +4,7 @@ installation:
   enabled: false
 defaultFelixConfiguration:
   enabled: false
+tolerations:
+  - key: CriticalAddonsOnly
+    operator: Exists
+    effect: NoSchedule
