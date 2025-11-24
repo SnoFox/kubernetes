@@ -66,7 +66,7 @@ spec:
           mountPath: /dynmap
           subPath: dynmap
       - name: dynmap
-        image: public.ecr.aws/nginx/nginx-unprivileged:1.29.2-alpine-slim@sha256:33a248b39dc73c7bde3ffe802d651c098cbbdee68e333ded42c357f230524dfb
+        image: public.ecr.aws/nginx/nginx-unprivileged:1.29.2-alpine-slim@sha256:8e23ab31c214ee1d7f832d63b2ee768d5cbc270a94a2cba0752fed93ad83e345
         imagePullPolicy: IfNotPresent
         volumeMounts:
         - name: data
