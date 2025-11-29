@@ -74,7 +74,7 @@ spec:
           subPath: files
       containers:
       - name: recipes-nginx
-        image: public.ecr.aws/nginx/nginx-unprivileged:1.29.2-alpine-slim@sha256:8e23ab31c214ee1d7f832d63b2ee768d5cbc270a94a2cba0752fed93ad83e345
+        image: public.ecr.aws/nginx/nginx-unprivileged:1.29.2-alpine-slim@sha256:046ac91ce56252873baf4aceb0ff3887c610d28461ca7d8e187cad737818e1e5
         imagePullPolicy: IfNotPresent
         ports:
           - containerPort: 8080
