@@ -11,8 +11,8 @@ spec:
   healthPort: 9099
   ipipEnabled: true
   # default is 0xffff0000, which conflicts with Tailscale
-  # apply 0xff00ff00 instead
-  iptablesMarkMask: 4278255360
+  # apply 0x00ffff00 instead
+  nftablesMarkMask: 16776960
   reportingInterval: 0s
   vxlanVNI: 4096
   logFilePath: "none"
