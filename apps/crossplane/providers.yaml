@@ -6,7 +6,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:
-  package: xpkg.crossplane.io/crossplane-contrib/provider-aws-dynamodb:v2.2.0@sha256:b8d611a453b08f04d105a38586e31a801877c275a2eff64b650e1f1bda3bd8d3
+  package: xpkg.crossplane.io/crossplane-contrib/provider-aws-dynamodb:v2.3.0@sha256:a42ee4095d74dac884f6f0175e2ead8eb07471822d78c2da27a1bd20526306ec
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
@@ -15,4 +15,4 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:
-  package: xpkg.crossplane.io/crossplane-contrib/provider-aws-iam:v2.2.0@sha256:e5e5c5e93d4dc681553d8c6f2c1ac8aac3b2a59c50b6ff032457a7ed82b34f9a
+  package: xpkg.crossplane.io/crossplane-contrib/provider-aws-iam:v2.3.0@sha256:ea0c62adcdbefcd58bd78e4676c2104c8ef49f678f7a3faaf70ee0a3c2d94c4f
