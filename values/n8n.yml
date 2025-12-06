@@ -9,6 +9,7 @@ ingress:
   hosts:
    - paths:
        - /
+         pathType: Prefix
   tls:
    - hosts:
       - workflows
