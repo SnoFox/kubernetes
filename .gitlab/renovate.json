@@ -6,9 +6,6 @@
   "addLabels": [
     "automated"
   ],
-  "assignees": [
-    "snofox"
-  ],
   "kubernetes": {
     "managerFilePatterns": [
       "/^apps/.*\\.ya?ml$/"
@@ -55,6 +52,23 @@
       "groupSlug": "values-{{updateType}}"
     },
     {
+      "description": "Auto-merge minor-level changes after burn-in",
+      "matchUpdateTypes": [
+        "minor"
+      ],
+      "groupName": "minor updates",
+      "groupSlug": "minor",
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash",
+      "platformAutomerge": true,
+      "minimumReleaseAge": "7 days",
+      "automergeSchedule": "* 8-17 * * 1-5",
+      "addLabels": [
+        "auto-merge"
+      ]
+    },
+    {
       "description": "Auto-merge patch-level changes",
       "matchUpdateTypes": [
         "patch"
@@ -64,7 +78,10 @@
       "automerge": true,
       "automergeType": "pr",
       "automergeStrategy": "squash",
-      "platformAutomerge": true
+      "platformAutomerge": true,
+      "addLabels": [
+        "auto-merge"
+      ]
     },
     {
       "description": "Auto-merge digest updates for nginx-unprivileged",
