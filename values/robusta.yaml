@@ -22,6 +22,11 @@ isSmallCluster: true
 kube_prometheus_stack:
   prometheus:
     prometheusSpec:
+      evaluationInterval: 5m
+      query:
+        timeout: 5m
+        maxConcurrency: 10
+        lookbackDelta: 5m
       resources:
         requests:
           memory: 512Mi
