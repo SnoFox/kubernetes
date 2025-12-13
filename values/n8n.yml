@@ -10,13 +10,14 @@ ingress:
     cert-manager.io/revision-history-limit: "3"
   className: "nginx"
   hosts:
-   - paths:
+    - host: *hostname
+      paths:
        - path: /
          pathType: Prefix
   tls:
-   - hosts:
-     - *hostname
-     secretName: n8n-tls
+    - hosts:
+      - *hostname
+      secretName: n8n-tls
 
 # the main (n8n) application related configuration + Kubernetes specific settings
 # The config: {} dictionary is converted to environmental variables in the ConfigMap.
