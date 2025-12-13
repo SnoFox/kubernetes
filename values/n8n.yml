@@ -1,18 +1,22 @@
 _shared_config:
-  url: &url https://workflows.snow-galaxy.ts.net
-  hostname: &hostname workflows.snow-galaxy.ts.net
+  url: &url https://workflows.snofox.net
+  hostname: &hostname workflows.snofox.net
 
 ingress:
   enabled: true
-  annotations: {}
-  className: "tailscale"
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    cert-manager.io/revision-history-limit: "3"
+  className: "nginx"
   hosts:
    - paths:
        - path: /
          pathType: Prefix
   tls:
    - hosts:
-      - workflows
+     - *hostname
+     secretName: n8n-tls
 
 # the main (n8n) application related configuration + Kubernetes specific settings
 # The config: {} dictionary is converted to environmental variables in the ConfigMap.
