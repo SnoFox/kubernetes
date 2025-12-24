@@ -86,6 +86,8 @@ sinksConfig:
     scope:
       include:
         - severity: HIGH
+      exclude:
+        - namespace: robusta
 - discord_sink:
     name: personal_discord_sink
     url: '{{ env.DISCORD_WEBHOOK }}'
