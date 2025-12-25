@@ -16,7 +16,7 @@ spec:
       targetRevision: master
     - repoURL: https://pkgs.tailscale.com/helmcharts
       chart: tailscale-operator
-      targetRevision: 1.90.9
+      targetRevision: 1.92.4
       helm:
         valueFiles:
         - $values/values/tailscale.yml
