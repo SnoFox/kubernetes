@@ -18,7 +18,7 @@ spec:
     # cert-manager itself
     - repoURL: quay.io/jetstack/charts
       chart: cert-manager
-      targetRevision: v1.19.2
+      targetRevision: v1.19.3
       helm:
         valueFiles:
         - $values/values/cert-manager.yml
