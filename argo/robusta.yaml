@@ -21,7 +21,7 @@ spec:
       ref: values
     - chart: robusta
       repoURL: https://robusta-charts.storage.googleapis.com
-      targetRevision: 0.31.5
+      targetRevision: 0.32.0
       helm:
         valueFiles:
         - $values/values/robusta.yaml
