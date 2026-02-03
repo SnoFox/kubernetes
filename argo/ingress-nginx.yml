@@ -14,7 +14,7 @@ spec:
     - repoURL: https://kubernetes.github.io/ingress-nginx
       # https://github.com/kubernetes/ingress-nginx?tab=readme-ov-file#supported-versions-table
       chart: ingress-nginx
-      targetRevision: 4.14.2
+      targetRevision: 4.14.3
       helm:
         valueFiles:
         - $values/values/ingress-nginx.yml
