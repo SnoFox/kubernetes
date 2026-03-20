@@ -70,7 +70,7 @@ controller:
   # deployment = deploy controller parts in a distinct deployment
   # node       = deploy controller as sidecars with node daemonset
   strategy: deployment
-  replicaCount: 2
+  replicaCount: 1
   driver:
     enabled: true
     logLevel: debug

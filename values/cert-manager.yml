@@ -14,7 +14,7 @@ tolerations:
     operator: Exists
     effect: NoSchedule
 webhook:
-  replicaCount: 2
+  replicaCount: 1
   podDisruptionBudget:
     enabled: true
     minAvailable: 1
@@ -25,7 +25,7 @@ webhook:
       operator: Exists
       effect: NoSchedule
 cainjector:
-  replicaCount: 2
+  replicaCount: 1
   podDisruptionBudget:
     enabled: true
     minAvailable: 1
