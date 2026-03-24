@@ -13,7 +13,7 @@ spec:
   sources:
     - repoURL: https://docs.renovatebot.com/helm-charts
       chart: renovate
-      targetRevision: 46.72.0
+      targetRevision: 46.72.7
       helm:
         valueFiles:
         - $values/values/renovate.yml
