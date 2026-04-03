@@ -41,7 +41,7 @@ spec:
               secretKeyRef:
                 name: recipes-pg
                 key: password
-        image: vabene1111/recipes:2.6.0@sha256:972b59023b8aa72ed653d99057b93efe235e8b116296604e43c8d843a38c06a7
+        image: vabene1111/recipes:2.6.3@sha256:3b1e66b7df6703d4bc8f56a9efe170a635d0724dc9dc676d7c80582a34f9abbe
         imagePullPolicy: Always
         resources:
           requests:
@@ -94,7 +94,7 @@ spec:
             subPath: nginx-config
             readOnly: true
       - name: recipes
-        image: vabene1111/recipes:2.6.0@sha256:972b59023b8aa72ed653d99057b93efe235e8b116296604e43c8d843a38c06a7
+        image: vabene1111/recipes:2.6.3@sha256:3b1e66b7df6703d4bc8f56a9efe170a635d0724dc9dc676d7c80582a34f9abbe
         imagePullPolicy: IfNotPresent
         command:
           - /opt/recipes/venv/bin/gunicorn
