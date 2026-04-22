@@ -74,6 +74,9 @@ runner:
     - key: CriticalAddonsOnly
       operator: Exists
       effect: NoSchedule
+  resources:
+    limits:
+      memory: 1Gi
 sinksConfig:
 - robusta_sink:
     name: robusta_ui_sink
