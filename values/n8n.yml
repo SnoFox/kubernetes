@@ -2,6 +2,8 @@ _shared_config:
   url: &url https://workflows.snofox.net
   hostname: &hostname workflows.snofox.net
 
+image:
+  tag: 1.123.33
 ingress:
   enabled: true
   annotations:
