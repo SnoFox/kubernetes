@@ -19,6 +19,9 @@ env:
 - name: AWS_DEFAULT_REGION
   value: us-west-2
 
+extraArgs:
+  - --dynamodb-region=us-west-2
+
 tolerations:
   - key: CriticalAddonsOnly
     operator: Exists
