@@ -79,6 +79,8 @@
       "automergeType": "pr",
       "automergeStrategy": "squash",
       "platformAutomerge": true,
+      "minimumReleaseAge": "7 days",
+      "automergeSchedule": "* 8-17 * * 1-5",
       "addLabels": [
         "auto-merge"
       ]
