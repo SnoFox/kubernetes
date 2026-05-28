@@ -113,7 +113,9 @@
     {
       "description": "Track upstream n8n image version in values/n8n.yml independent of the helm chart version",
       "customType": "regex",
-      "fileMatch": ["^values/n8n\\.ya?ml$"],
+      "managerFilePatterns": [
+        "/^values/n8n\\.ya?ml$/"
+      ],
       "matchStrings": [
         "image:\\n  tag: (?<currentValue>[^\\n]+)"
       ],
