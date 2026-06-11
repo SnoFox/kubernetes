@@ -14,12 +14,6 @@ workloadAsStatefulSet: true
 # - for StatefulSet sets updateStrategy: OnDelete or RollingUpdate
 strategyType: OnDelete
 
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
-
 revisionHistoryLimit: 5
 
 # Most of these map to environment variables. See Minecraft for details:
@@ -47,19 +41,6 @@ startupProbe:
   failureThreshold: 30
   periodSeconds: 10
 
-## Array of extra objects to deploy with the release
-##
-# extraDeploy:
-#   - |
-#     apiVersion: v1
-#     kind: ConfigMap
-#     metadata:
-#       name: {{ template "minecraft.fullname" . }}-extra-cm
-#     data:
-#       key: |-
-#         {
-#           "key": "value"
-#         }
 extraDeploy:
   - |
     apiVersion: onepassword.com/v1
@@ -69,6 +50,10 @@ extraDeploy:
       namespace: cobblexcreate
     spec:
       itemPath: "vaults/FMT/items/cobblexcreate:rcon"
+
+extraEnv:
+  MODPACK_PLATFORM: MODRINTH
+  MODRINTH_MODPACK: cobblemon-x-creating
 
 minecraftServer:
   eula: "TRUE"
@@ -143,7 +128,7 @@ minecraftServer:
 
   # A list of Modrinth project slugs with optional version after colon
   modrinth:
-    projects: ["cobblemon-x-creating"]
+    projects: []
     # Specifies whether to download Modrinth dependencies. The allowed values are: none, required, optional
     downloadDependencies: required
     # The version type is used to determine the newest version to use from each project. The allowed values are: release, beta, alpha
@@ -252,56 +237,5 @@ serviceLabels: {}
 rconServiceAnnotations: {}
 rconServiceLabels: {}
 
-# PLEASE NOTE! rcon must be enabled above!  It does NOT require a nodePort or loadBalancerIP
 mcbackup:
   enabled: false
-
-  image:
-    repository: itzg/mc-backup
-    tag: latest
-    pullPolicy: IfNotPresent
-
-  #  wait 2 minutes before starting
-  initialDelay: 2m
-
-  # Sets `BACKUP_NAME`, defaults to `minecraftServer.worldSaveName`
-  # WARN: When using restic and sharing the `mcbackup.resticRepository` across multiple minecraft server deployments: either `mcbackup.backupName` or `mcbackup.resticHostname` must be unique!
-  backupName:
-
-  # ***set to 0 or smaller, script will run once and exit.  DO NOT SET TO 0 or smaller, this will cause K8s to kill your pod!***
-  # backupInterval="1.5d" -> backup every one and a half days (36 hours)
-  # backupInterval="2h 30m" -> backup every two and a half hours
-  backupInterval: 24h
-
-  # option lets you pause backups if no players are online.
-  pauseIfNoPlayers: "false"
-
-  # is set to a positive number, it'll delete old .tgz backup files from DEST_DIR. By default deletes backups older than a week.
-  pruneBackupsDays: 7
-
-  # Set to a negative value to retry indefinitely
-  rconRetries: 5
-  rconRetryInterval: 10s
-
-  # is a comma-separated list of glob(3) patterns to exclude from backups. By default excludes all jar files (plugins, server files),
-  # logs folder and cache (used by i.e. PaperMC server).
-  excludes: "*.jar,cache,logs"
-
-  # backup methods, see https://github.com/itzg/docker-mc-backup e.g. tar, rclone, restic, rsync
-  backupMethod: tar
-  # tar and rclone methods
-  destDir: /backups
-  # is a true/false flag that creates a symbolic link to the latest backup
-  linkLatest: "false"
-  # is the compression method used by tar. Valid value: gzip bzip2 zstd
-  compressMethod: "gzip"
-  # sets the parameters for zstd compression. The --long parameter affects RAM requirements for both compression and decompression
-  # (the default of 25 means 2^25 bytes = 32 MB).
-  zstdParameters: "-3 --long=25 --single-thread"
-  ## Additional minecraft container environment variables
-  ## Values can be either variable values or `valueFrom` yaml
-  ##
-  resources:
-    requests:
-      memory: 512Mi
-      cpu: 500m
