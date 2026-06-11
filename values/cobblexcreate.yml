@@ -57,12 +57,10 @@ extraDeploy:
 extraEnv:
   MODPACK_PLATFORM: MODRINTH
   MODRINTH_MODPACK: cobblemon-x-creating
-  MODRINTH_EXCLUDE_FILES: |
-    reforgedplaymod
   MODRINTH_FORCE_SYNCHRONIZE: "true"
   MODRINTH_OVERRIDES_EXCLUSIONS: |
-    reforgedplaymod-*.jar
     mods/reforgedplaymod-*.jar
+    mods/better-clouds-*
 
 minecraftServer:
   eula: "TRUE"
