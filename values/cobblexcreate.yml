@@ -60,17 +60,25 @@ startupProbe:
 #         {
 #           "key": "value"
 #         }
-extraDeploy: []
+extraDeploy:
+  - |
+    apiVersion: onepassword.com/v1
+    kind: OnePasswordItem
+    metadata:
+      name: rcon
+      namespace: cobblexcreate
+    spec:
+      itemPath: "vaults/FMT/items/cobblexcreate:rcon"
 
 minecraftServer:
   eula: "TRUE"
   # One of: LATEST, SNAPSHOT, or a specific version (ie: "1.7.9").
-  version: "LATEST"
+  version: "1.21.1"
   ## The type of Minecraft server to run, check for related settings below
   ## Common types: "VANILLA", "FABRIC", "FORGE", "SPIGOT", "BUKKIT", "PAPER",
   ## "FTBA", "SPONGEVANILLA", "AUTO_CURSEFORGE"
   ## ref: https://docker-minecraft-server.readthedocs.io/en/latest/types-and-platforms
-  type: "VANILLA"
+  type: "NEOFORGE"
   # One of: peaceful, easy, normal, and hard
   difficulty: normal
   # A comma-separated list of player names to whitelist.
@@ -81,17 +89,17 @@ minecraftServer:
   icon:
   maxPlayers: default
   maxWorldSize: default
-  allowNether: "true"
-  announcePlayerAchievements: "true"
-  enableCommandBlock: "true"
-  forcegameMode: "false"
-  generateStructures: "true"
-  hardcore: "false"
+  allowNether: true
+  announcePlayerAchievements: true
+  enableCommandBlock: true
+  forcegameMode: false
+  generateStructures: true
+  hardcore: false
   maxBuildHeight: default
   maxTickTime: default
-  spawnAnimals: "true"
-  spawnMonsters: "true"
-  spawnNPCs: "true"
+  spawnAnimals: true
+  spawnMonsters: true
+  spawnNPCs: true
   spawnProtection: -1
   # Max view distance (in chunks).
   viewDistance: default
@@ -99,17 +107,17 @@ minecraftServer:
   gameMode: survival
   motd: "I wanna be the very best"
   # If true, enable player-vs-player damage.
-  pvp: "true"
+  pvp: true
   # One of: DEFAULT, FLAT, LARGEBIOMES, AMPLIFIED, CUSTOMIZED
   levelType: DEFAULT
   worldSaveName: world
   # If true, old versions of downloaded mods will be replaced with new ones from downloadModpackUrl
-  removeOldMods: "true"
+  removeOldMods: true
   # A list of VanillaTweaks Share Codes to download. (https://vanillatweaks.net/share#wUq1iz => "wUq1iz")
   vanillaTweaksShareCodes: []
   resourcePackEnforce: false
-  onlineMode: "true"
-  enforceSecureProfile: "true"
+  onlineMode: true
+  enforceSecureProfile: true
   # If you adjust this, you may need to adjust resources.requests above to match.
   memory: 1024M
   # General JVM options to be passed to the Minecraft server invocation
@@ -143,16 +151,11 @@ minecraftServer:
 
 
   rcon:
-    # If you enable this, make SURE to change your password below.
-    enabled: false
-    # By default, the container will generate a random password at startup
-    # to ensure internal RCON tooling, including a backup container,
-    # can be used, but the password is secure.
+    enabled: true
     withGeneratedPassword: false
     port: 25575
-    password: "CHANGEME!"
-    existingSecret:
-    secretKey: rcon-password
+    existingSecret: "rcon"
+    secretKey: password
     serviceType: ClusterIP
     ## Set the external port if the rcon serviceType is NodePort
     nodePort:
@@ -168,7 +171,6 @@ minecraftServer:
 
   extraPorts:
     []
-
     # These options allow you to expose another port from the Minecraft server, plugins such
     # as dynmap (8123) and bluemap (8100) will require this for access to their web interfaces
     #
@@ -230,9 +232,7 @@ persistence:
     Size: 10Gi
     accessModes:
       - ReadWriteOnce
-    # existingClaim: nil
-    ## specify a subpath in the volume where the data is. Useful when sharing volumes with other apps.
-      subPath: /data
+    subPath: /data
   #extraVolumes:
   #  - volumeMounts:
   #      - name: datadir
