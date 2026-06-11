@@ -232,7 +232,7 @@ persistence:
     Size: 10Gi
     accessModes:
       - ReadWriteOnce
-    subPath: /data
+    subPath: data
   #extraVolumes:
   #  - volumeMounts:
   #      - name: datadir
