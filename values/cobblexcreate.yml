@@ -78,7 +78,7 @@ minecraftServer:
   ## Common types: "VANILLA", "FABRIC", "FORGE", "SPIGOT", "BUKKIT", "PAPER",
   ## "FTBA", "SPONGEVANILLA", "AUTO_CURSEFORGE"
   ## ref: https://docker-minecraft-server.readthedocs.io/en/latest/types-and-platforms
-  type: "NEOFORGE"
+  type: "MODRINTH"
   # One of: peaceful, easy, normal, and hard
   difficulty: normal
   # A comma-separated list of player names to whitelist.
