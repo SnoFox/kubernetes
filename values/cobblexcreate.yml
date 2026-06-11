@@ -1,0 +1,307 @@
+resources:
+  requests:
+    memory: 512Mi
+    cpu: 500m
+
+lifecycle:
+  postStart: []
+  preStop: []
+
+workloadAsStatefulSet: true
+
+# upgrade strategy type, depending on workload type:
+# - for Deployment sets strategy: Recreate or RollingUpdate
+# - for StatefulSet sets updateStrategy: OnDelete or RollingUpdate
+strategyType: OnDelete
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+revisionHistoryLimit: 5
+
+# Most of these map to environment variables. See Minecraft for details:
+# https://hub.docker.com/r/itzg/minecraft-server/
+livenessProbe:
+  command:
+    - mc-health
+  initialDelaySeconds: 60
+  periodSeconds: 5
+  failureThreshold: 20
+  successThreshold: 1
+  timeoutSeconds: 1
+readinessProbe:
+  command:
+    - mc-health
+  initialDelaySeconds: 30
+  periodSeconds: 5
+  failureThreshold: 20
+  successThreshold: 1
+  timeoutSeconds: 1
+startupProbe:
+  command:
+    - mc-health
+  enabled: false
+  failureThreshold: 30
+  periodSeconds: 10
+
+## Array of extra objects to deploy with the release
+##
+# extraDeploy:
+#   - |
+#     apiVersion: v1
+#     kind: ConfigMap
+#     metadata:
+#       name: {{ template "minecraft.fullname" . }}-extra-cm
+#     data:
+#       key: |-
+#         {
+#           "key": "value"
+#         }
+extraDeploy: []
+
+minecraftServer:
+  eula: "TRUE"
+  # One of: LATEST, SNAPSHOT, or a specific version (ie: "1.7.9").
+  version: "LATEST"
+  ## The type of Minecraft server to run, check for related settings below
+  ## Common types: "VANILLA", "FABRIC", "FORGE", "SPIGOT", "BUKKIT", "PAPER",
+  ## "FTBA", "SPONGEVANILLA", "AUTO_CURSEFORGE"
+  ## ref: https://docker-minecraft-server.readthedocs.io/en/latest/types-and-platforms
+  type: "VANILLA"
+  # One of: peaceful, easy, normal, and hard
+  difficulty: normal
+  # A comma-separated list of player names to whitelist.
+  whitelist:
+  # A comma-separated list of player names who should be admins.
+  ops: SnoFox
+  # A server icon URL for server listings. Auto-scaled and transcoded.
+  icon:
+  maxPlayers: default
+  maxWorldSize: default
+  allowNether: "true"
+  announcePlayerAchievements: "true"
+  enableCommandBlock: "true"
+  forcegameMode: "false"
+  generateStructures: "true"
+  hardcore: "false"
+  maxBuildHeight: default
+  maxTickTime: default
+  spawnAnimals: "true"
+  spawnMonsters: "true"
+  spawnNPCs: "true"
+  spawnProtection: -1
+  # Max view distance (in chunks).
+  viewDistance: default
+  levelSeed:
+  gameMode: survival
+  motd: "I wanna be the very best"
+  # If true, enable player-vs-player damage.
+  pvp: "true"
+  # One of: DEFAULT, FLAT, LARGEBIOMES, AMPLIFIED, CUSTOMIZED
+  levelType: DEFAULT
+  worldSaveName: world
+  # If true, old versions of downloaded mods will be replaced with new ones from downloadModpackUrl
+  removeOldMods: "true"
+  # A list of VanillaTweaks Share Codes to download. (https://vanillatweaks.net/share#wUq1iz => "wUq1iz")
+  vanillaTweaksShareCodes: []
+  resourcePackEnforce: false
+  onlineMode: "true"
+  enforceSecureProfile: "true"
+  # If you adjust this, you may need to adjust resources.requests above to match.
+  memory: 1024M
+  # General JVM options to be passed to the Minecraft server invocation
+  jvmOpts: ""
+  # Options like -X that need to proceed general JVM options
+  jvmXXOpts: ""
+  overrideServerProperties: default
+  # DEPRECATED: use top-level rconServiceAnnotations instead
+  serviceType: ClusterIP
+  ## Set the port used if the serviceType is NodePort
+  nodePort:
+  servicePort: 25565
+  clusterIP:
+  loadBalancerClass: tailscale
+  loadBalancerIP:
+  # externalTrafficPolicy: Cluster
+  externalIPs:
+  ipFamilies:
+  ipFamilyPolicy:
+
+  # Additional service specs to be defined
+  extraServiceSpec: {}
+
+  # A list of Modrinth project slugs with optional version after colon
+  modrinth:
+    projects: ["cobblemon-x-creating"]
+    # Specifies whether to download Modrinth dependencies. The allowed values are: none, required, optional
+    downloadDependencies: required
+    # The version type is used to determine the newest version to use from each project. The allowed values are: release, beta, alpha
+    allowedVersionType: release
+
+
+  rcon:
+    # If you enable this, make SURE to change your password below.
+    enabled: false
+    # By default, the container will generate a random password at startup
+    # to ensure internal RCON tooling, including a backup container,
+    # can be used, but the password is secure.
+    withGeneratedPassword: false
+    port: 25575
+    password: "CHANGEME!"
+    existingSecret:
+    secretKey: rcon-password
+    serviceType: ClusterIP
+    ## Set the external port if the rcon serviceType is NodePort
+    nodePort:
+    clusterIP:
+    loadBalancerClass:
+    loadBalancerIP:
+    # loadBalancerSourceRanges: []
+    ## Set the externalTrafficPolicy in the Service to either Cluster or Local
+    # externalTrafficPolicy: Cluster
+
+  ## set this to false to not have colorized logs
+  tty: true
+
+  extraPorts:
+    []
+
+    # These options allow you to expose another port from the Minecraft server, plugins such
+    # as dynmap (8123) and bluemap (8100) will require this for access to their web interfaces
+    #
+    # - name: map
+    #   containerPort: 8123
+    #   protocol: TCP
+    #   service:
+    #     enabled: false
+    #     embedded: false
+    #     annotations: {}
+    #     type: ClusterIP
+    #     ## Set the external port if the rcon serviceType is NodePort
+    ##     nodePort:
+    #     loadBalancerIP: ""
+    #     loadBalancerSourceRanges: []
+    #     externalTrafficPolicy: Cluster
+    #     port: 8123
+    #   ingress:
+    #     ingressClassName: nginx
+    #     enabled: false
+    #     annotations:
+    ## Deprecated way for specifying the ingressClass. Kube.version < 1.18
+    ##       kubernetes.io/ingress.class: nginx
+    #       kubernetes.io/tls-acme: "true"
+    #     hosts:
+    #       - name: map.local
+    #         path: /
+    #     tls:
+    #       - secretName: map-tls
+    #         hosts:
+    #           - map.local
+
+  query:
+    # If you enable this, your server will be "published" to Gamespy
+    enabled: false
+    port: 25565
+
+## Additional environment variables to add to the minecraft container from
+## ConfigMaps and Secrets
+##
+envFrom: []
+
+persistence:
+  labels: {}
+  annotations: {}
+  ## specify an alternative volume to be mounted to /data instead of datadir.
+  # altDataVolumeName: ""
+  ## minecraft data Persistent Volume Storage Class
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack)
+  ##
+  storageClass: "freenas-iscsi-csi"
+  dataDir:
+    # Set this to false if you don't care to persist state between restarts.
+    enabled: true
+    Size: 10Gi
+    accessModes:
+      - ReadWriteOnce
+    # existingClaim: nil
+    ## specify a subpath in the volume where the data is. Useful when sharing volumes with other apps.
+      subPath: /data
+  #extraVolumes:
+  #  - volumeMounts:
+  #      - name: datadir
+  #        mountPath: 
+  #        subPath:
+
+podAnnotations: {}
+podLabels: {}
+
+deploymentAnnotations: {}
+deploymentLabels: {}
+
+serviceAnnotations:
+  tailscale.com/hostname: cobble
+serviceLabels: {}
+
+rconServiceAnnotations: {}
+rconServiceLabels: {}
+
+# PLEASE NOTE! rcon must be enabled above!  It does NOT require a nodePort or loadBalancerIP
+mcbackup:
+  enabled: false
+
+  image:
+    repository: itzg/mc-backup
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  #  wait 2 minutes before starting
+  initialDelay: 2m
+
+  # Sets `BACKUP_NAME`, defaults to `minecraftServer.worldSaveName`
+  # WARN: When using restic and sharing the `mcbackup.resticRepository` across multiple minecraft server deployments: either `mcbackup.backupName` or `mcbackup.resticHostname` must be unique!
+  backupName:
+
+  # ***set to 0 or smaller, script will run once and exit.  DO NOT SET TO 0 or smaller, this will cause K8s to kill your pod!***
+  # backupInterval="1.5d" -> backup every one and a half days (36 hours)
+  # backupInterval="2h 30m" -> backup every two and a half hours
+  backupInterval: 24h
+
+  # option lets you pause backups if no players are online.
+  pauseIfNoPlayers: "false"
+
+  # is set to a positive number, it'll delete old .tgz backup files from DEST_DIR. By default deletes backups older than a week.
+  pruneBackupsDays: 7
+
+  # Set to a negative value to retry indefinitely
+  rconRetries: 5
+  rconRetryInterval: 10s
+
+  # is a comma-separated list of glob(3) patterns to exclude from backups. By default excludes all jar files (plugins, server files),
+  # logs folder and cache (used by i.e. PaperMC server).
+  excludes: "*.jar,cache,logs"
+
+  # backup methods, see https://github.com/itzg/docker-mc-backup e.g. tar, rclone, restic, rsync
+  backupMethod: tar
+  # tar and rclone methods
+  destDir: /backups
+  # is a true/false flag that creates a symbolic link to the latest backup
+  linkLatest: "false"
+  # is the compression method used by tar. Valid value: gzip bzip2 zstd
+  compressMethod: "gzip"
+  # sets the parameters for zstd compression. The --long parameter affects RAM requirements for both compression and decompression
+  # (the default of 25 means 2^25 bytes = 32 MB).
+  zstdParameters: "-3 --long=25 --single-thread"
+  ## Additional minecraft container environment variables
+  ## Values can be either variable values or `valueFrom` yaml
+  ##
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 500m
