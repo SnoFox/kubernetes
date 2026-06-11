@@ -58,6 +58,9 @@ extraEnv:
   MODPACK_PLATFORM: MODRINTH
   MODRINTH_MODPACK: cobblemon-x-creating
   MODRINTH_FORCE_SYNCHRONIZE: "true"
+  MODRINTH_EXCLUDE_FILES: |
+    reforgedplaymod
+    better-clouds
   MODRINTH_OVERRIDES_EXCLUSIONS: |
     reforgedplaymod-*.jar
     mods/reforgedplaymod-*.jar
