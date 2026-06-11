@@ -54,6 +54,8 @@ extraDeploy:
 extraEnv:
   MODPACK_PLATFORM: MODRINTH
   MODRINTH_MODPACK: cobblemon-x-creating
+  MODRINTH_EXCLUDE_FILES: |
+    reforgedplaymod
 
 minecraftServer:
   eula: "TRUE"
@@ -97,7 +99,7 @@ minecraftServer:
   levelType: DEFAULT
   worldSaveName: world
   # If true, old versions of downloaded mods will be replaced with new ones from downloadModpackUrl
-  removeOldMods: true
+  removeOldMods: false
   # A list of VanillaTweaks Share Codes to download. (https://vanillatweaks.net/share#wUq1iz => "wUq1iz")
   vanillaTweaksShareCodes: []
   resourcePackEnforce: false
