@@ -1,3 +1,6 @@
+image:
+  tag: java21
+
 resources:
   requests:
     memory: 512Mi
