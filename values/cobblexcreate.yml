@@ -283,6 +283,7 @@ deploymentLabels: {}
 
 serviceAnnotations:
   tailscale.com/hostname: cobble
+  tailscale.com/expose: "true"
 serviceLabels: {}
 
 rconServiceAnnotations: {}
