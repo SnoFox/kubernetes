@@ -4,7 +4,7 @@ image:
 resources:
   requests:
     memory: 16Gi
-    cpu: 1000m
+    cpu: 3000m
 
 lifecycle:
   postStart: []
@@ -119,12 +119,10 @@ minecraftServer:
   resourcePackEnforce: false
   onlineMode: true
   enforceSecureProfile: true
-  # If you adjust this, you may need to adjust resources.requests above to match.
-  memory: 1024M
+  memory: 16G
   # General JVM options to be passed to the Minecraft server invocation
   jvmOpts: ""
   jvmXXOpts: >-
-    -Xms8G -Xmx16G
     -XX:+UseG1GC
     -XX:+ParallelRefProcEnabled
     -XX:MaxGCPauseMillis=200
