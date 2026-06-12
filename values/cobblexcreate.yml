@@ -123,7 +123,6 @@ minecraftServer:
   memory: 1024M
   # General JVM options to be passed to the Minecraft server invocation
   jvmOpts: ""
-  # Options like -X that need to proceed general JVM options
   jvmXXOpts: >-
     -Xms8G -Xmx16G
     -XX:+UseG1GC
@@ -145,9 +144,7 @@ minecraftServer:
     -XX:MaxTenuringThreshold=1
     -XX:+PrintCommandLineFlags
     -XX:NativeMemoryTracking=summary
-    -Xlog:gc*
-    -XX:+PrintGCDateStamps
-    -XX:+PrintGCTimeStamps
+    -Xlog:gc*::time,uptime,level,tags
 
   overrideServerProperties: default
   # DEPRECATED: use top-level rconServiceAnnotations instead
