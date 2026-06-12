@@ -61,11 +61,14 @@ extraEnv:
   MODRINTH_EXCLUDE_FILES: |
     reforgedplaymod
     better-clouds
+    betterclouds
   MODRINTH_OVERRIDES_EXCLUSIONS: |
     reforgedplaymod-*.jar
     mods/reforgedplaymod-*.jar
     better-clouds-*.jar
     mods/better-clouds-*.jar
+    betterclouds-*.jar
+    mods/betterclouds-*.jar
 
 minecraftServer:
   eula: "TRUE"
