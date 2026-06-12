@@ -3,7 +3,7 @@ image:
 
 resources:
   requests:
-    memory: 8Gi
+    memory: 16Gi
     cpu: 1000m
 
 lifecycle:
@@ -125,7 +125,7 @@ minecraftServer:
   jvmOpts: ""
   # Options like -X that need to proceed general JVM options
   jvmXXOpts: >-
-    -Xms8G -Xmx8G
+    -Xms8G -Xmx16G
     -XX:+UseG1GC
     -XX:+ParallelRefProcEnabled
     -XX:MaxGCPauseMillis=200
@@ -143,6 +143,12 @@ minecraftServer:
     -XX:SurvivorRatio=32
     -XX:+PerfDisableSharedMem
     -XX:MaxTenuringThreshold=1
+    -XX:+PrintCommandLineFlags
+    -XX:NativeMemoryTracking=summary
+    -Xlog:gc*
+    -XX:+PrintGCDateStamps
+    -XX:+PrintGCTimeStamps
+
   overrideServerProperties: default
   # DEPRECATED: use top-level rconServiceAnnotations instead
   serviceType: ClusterIP
