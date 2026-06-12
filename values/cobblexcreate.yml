@@ -69,6 +69,7 @@ extraEnv:
     mods/better-clouds-*.jar
     betterclouds-*.jar
     mods/betterclouds-*.jar
+    mods/dynamic-fps-*.jar
 
 minecraftServer:
   eula: "TRUE"
