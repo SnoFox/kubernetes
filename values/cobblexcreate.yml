@@ -62,14 +62,30 @@ extraEnv:
     reforgedplaymod
     better-clouds
     betterclouds
+    dynamic-fps
+    mcmouser
+    forgematica
+    ctrlq
+    particular
+    distanthorizons
+    DistantHorizons
+    fusion
+    athena
   MODRINTH_OVERRIDES_EXCLUSIONS: |
-    reforgedplaymod-*.jar
     mods/reforgedplaymod-*.jar
-    better-clouds-*.jar
     mods/better-clouds-*.jar
-    betterclouds-*.jar
     mods/betterclouds-*.jar
     mods/dynamic-fps-*.jar
+    mods/mcmouser-*.jar
+    mods/forgematica-*.jar
+    mods/ctrlq-*.jar
+    mods/particular-*.jar
+    mods/DistantHorizons-*.jar
+    mods/distanthorizons-*.jar
+    mods/fusion-*.jar
+    mods/athena-*.jar
+    mods/Xaero*.jar
+    mods/xaerolib-*.jar
 
 minecraftServer:
   eula: "TRUE"
