@@ -3,8 +3,8 @@ image:
 
 resources:
   requests:
-    memory: 512Mi
-    cpu: 500m
+    memory: 4Gi
+    cpu: 1000m
 
 lifecycle:
   postStart: []
