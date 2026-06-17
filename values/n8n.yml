@@ -3,7 +3,7 @@ _shared_config:
   hostname: &hostname workflows.snofox.net
 
 image:
-  tag: 2.26.1
+  tag: 2.26.2
 ingress:
   enabled: true
   annotations:
