@@ -97,7 +97,7 @@ spec:
       containers:
       - name: nginx
         imagePullPolicy: Always
-        image: public.ecr.aws/nginx/nginx-unprivileged:1.31.1-alpine-slim@sha256:762e8e4e5e103817c4158400fc3753c8e713ff8153b8c3afbb458ae4572bc9a3
+        image: public.ecr.aws/nginx/nginx-unprivileged:1.31.2-alpine-slim@sha256:ee7751c78fd1a51a8c12ac5a0ab15b2de2d486df155ef95bf52db9cef7de0d2d
         resources:
           requests:
             memory: "512Mi"
