@@ -34,7 +34,7 @@ spec:
       containers:
       - name: thelounge
         imagePullPolicy: Always
-        image: ghcr.io/thelounge/thelounge:4.5.2@sha256:c764151188d2c805932856ece9673917c868be38e22486d4fd9c5c376c663790
+        image: ghcr.io/thelounge/thelounge:4.5.2@sha256:79b02c2a8373063f300129729161ec75a26ea1881352845f01f12988075d378e
         resources:
           requests:
             memory: "2Gi"
