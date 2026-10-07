@@ -130,6 +130,16 @@
       "registryUrls": [
         "https://charts.jetstack.io"
       ]
+    },
+    {
+      "description": "xpkg.crossplane.io publishes no release timestamps, so the digest-pinned crossplane providers never pass minimumReleaseAge. Stay on the docker datasource (needed for the digest) and allow updates without a timestamp",
+      "matchManagers": [
+        "crossplane"
+      ],
+      "matchPackageNames": [
+        "xpkg.crossplane.io/**"
+      ],
+      "minimumReleaseAgeBehaviour": "timestamp-optional"
     }
   ],
   "customManagers": [
