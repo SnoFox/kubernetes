@@ -140,6 +140,13 @@
         "xpkg.crossplane.io/**"
       ],
       "minimumReleaseAgeBehaviour": "timestamp-optional"
+    },
+    {
+      "description": "Ignore the tblflp Minecraft images on registry.tblflp.zone: Renovate can't look them up (no-result), which logs a WARN every run",
+      "matchPackageNames": [
+        "registry.tblflp.zone/tblflp-*"
+      ],
+      "enabled": false
     }
   ],
   "customManagers": [
