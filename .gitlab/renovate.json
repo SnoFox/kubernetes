@@ -106,8 +106,31 @@
       "automergeType": "branch",
       "automergeStrategy": "squash",
       "platformAutomerge": true
+    },
+    {
+      "description": "8gears' Harbor registry publishes no release timestamps; without this the n8n chart never passes minimumReleaseAge",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "8gears.container-registry.com/library/n8n"
+      ],
+      "minimumReleaseAgeBehaviour": "timestamp-optional"
+    },
+    {
+      "description": "quay.io's OCI chart registry publishes no release timestamps, so cert-manager never passes minimumReleaseAge. Look versions up in Jetstack's classic Helm repo instead (same versions, with timestamps); Argo still pulls the chart from quay.io",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "quay.io/jetstack/charts/cert-manager"
+      ],
+      "overrideDatasource": "helm",
+      "overridePackageName": "cert-manager",
+      "registryUrls": [
+        "https://charts.jetstack.io"
+      ]
     }
-
   ],
   "customManagers": [
     {
@@ -120,7 +143,9 @@
         "image:\\n  tag: (?<currentValue>[^\\n]+)"
       ],
       "depNameTemplate": "n8nio/n8n",
-      "datasourceTemplate": "docker"
+      "datasourceTemplate": "github-releases",
+      "packageNameTemplate": "n8n-io/n8n",
+      "extractVersionTemplate": "^n8n@(?<version>.+)$"
     }
   ],
   "prCreation": "immediate"
