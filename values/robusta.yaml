@@ -18,7 +18,7 @@ holmes:
   resources:
     requests:
       memory: 512Mi
-isSmallCluster: true
+isSmallCluster: false
 kube_prometheus_stack:
   prometheus:
     prometheusSpec:
