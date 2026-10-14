@@ -143,6 +143,16 @@
       "minimumReleaseAgeBehaviour": "timestamp-optional"
     },
     {
+      "description": "Never digest-pin the crossplane family provider: with tag@digest Crossplane's lock records the source as <repo>:<tag> and the member providers' dependency on <repo> no longer resolves",
+      "matchManagers": [
+        "crossplane"
+      ],
+      "matchPackageNames": [
+        "xpkg.crossplane.io/crossplane-contrib/provider-family-aws"
+      ],
+      "pinDigests": false
+    },
+    {
       "description": "Ignore the tblflp Minecraft images on registry.tblflp.zone: Renovate can't look them up (no-result), which logs a WARN every run",
       "matchPackageNames": [
         "registry.tblflp.zone/tblflp-*"
