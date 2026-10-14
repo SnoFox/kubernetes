@@ -25,7 +25,8 @@ images:
   - name: gcr.io/zenika-hub/alpine-chrome
     newTag: 124@sha256:1a0046448e0bb6c275c88f86e01faf0de62b02ec8572901256ada0a8c08be23f
   - name: getmeili/meilisearch
-    newTag: v1.11.1@sha256:2ab0c8bdf58b7305e48af7372c47d5638d51dc1bb3a59c8e2b07eca6fe7176e9
+    # v1.41.0 = what karakeep 0.33.2 ships. Moved from v1.11.1 by wiping the index and reindexing (v1.11 has no in-place upgrade path).
+    newTag: v1.41.0@sha256:860fa4baed04ae1c235de870edab0c8006227546dea1bbb6411fbfc5e27cf1db
 
 patches:
   # meilisearch (LMDB lock) and web (SQLite) each sit on a single-writer PVC; a rolling
