@@ -3,6 +3,8 @@ cronjob:
   # Several daytime runs because ff-only merges force the other branches to rebase after each merge.
   schedule: '0 1,9,11,13,15 * * *'
   timeZone: 'America/Los_Angeles'
+  # Never overlap runs: concurrent runs race each other's branch pushes on GitLab.
+  concurrencyPolicy: Forbid
   suspend: false
 
 renovate:
