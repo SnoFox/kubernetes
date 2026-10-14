@@ -3,6 +3,7 @@
   "extends": [
     "config:best-practices"
   ],
+  "timezone": "America/Los_Angeles",
   "addLabels": [
     "automated"
   ],
@@ -62,7 +63,7 @@
       "automerge": true,
       "automergeType": "pr",
       "automergeStrategy": "squash",
-      "platformAutomerge": true,
+      "platformAutomerge": false,
       "minimumReleaseAge": "7 days",
       "automergeSchedule": "* 8-17 * * 1-5",
       "addLabels": [
@@ -77,7 +78,7 @@
       "automerge": true,
       "automergeType": "branch",
       "automergeStrategy": "squash",
-      "platformAutomerge": true,
+      "platformAutomerge": false,
       "automergeSchedule": "* 8-17 * * 1-5",
       "addLabels": [
         "auto-merge"
@@ -145,6 +146,13 @@
       "description": "Ignore the tblflp Minecraft images on registry.tblflp.zone: Renovate can't look them up (no-result), which logs a WARN every run",
       "matchPackageNames": [
         "registry.tblflp.zone/tblflp-*"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Karakeep's chrome sidecar on gcr.io/zenika-hub can't be looked up (no-result), which would log a WARN every run. Tag 124 is frozen upstream; karakeep itself moved to ghcr.io/karakeep-app/karakeep-chrome",
+      "matchPackageNames": [
+        "gcr.io/zenika-hub/alpine-chrome"
       ],
       "enabled": false
     }

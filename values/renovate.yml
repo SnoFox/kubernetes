@@ -1,5 +1,7 @@
 cronjob:
-  schedule: '0 1,13 * * *'
+  # 01:00 opens MRs overnight (outside automergeSchedule); daytime runs automerge while Josh is awake.
+  # Several daytime runs because ff-only merges force the other branches to rebase after each merge.
+  schedule: '0 1,9,11,13,15 * * *'
   timeZone: 'America/Los_Angeles'
   suspend: false
 
