@@ -155,9 +155,42 @@
         "gcr.io/zenika-hub/alpine-chrome"
       ],
       "enabled": false
+    },
+    {
+      "description": "CNPG postgres images live on ghcr.io, which has no release timestamps, so minors would be held forever. Let minors through without a timestamp (they still automerge in the daytime window via the minor rule; no 7-day bake is possible). Majors (e.g. 17 -> 18 runs pg_upgrade) only ever open an MR",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/cloudnative-pg/postgresql"
+      ],
+      "minimumReleaseAgeBehaviour": "timestamp-optional"
+    },
+    {
+      "description": "Never automerge a PostgreSQL major upgrade",
+      "matchPackageNames": [
+        "ghcr.io/cloudnative-pg/postgresql"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "automerge": false
     }
   ],
   "customManagers": [
+    {
+      "description": "CloudNativePG Cluster spec.imageName: the kubernetes manager only reads image: keys. Recipe from cloudnative-pg/postgres-containers; the build timestamp is optional so plain tags like 17.5 parse too. The flavour/OS suffix (e.g. system-trixie) is a compatibility group, so Renovate never switches base OS",
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^(apps|values)/.*\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "imageName: (?<depName>ghcr\\.io/cloudnative-pg/postgresql):(?<currentValue>[^\\s@]+)(?:@(?<currentDigest>sha256:[a-f0-9]{64}))?"
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)(?:-(?<patch>\\d{12}))?(?:-(?<compatibility>\\S+))?$",
+      "autoReplaceStringTemplate": "imageName: {{{depName}}}:{{{newValue}}}{{#if newDigest}}@{{{newDigest}}}{{/if}}"
+    },
     {
       "description": "Track upstream n8n image version in values/n8n.yml independent of the helm chart version",
       "customType": "regex",
