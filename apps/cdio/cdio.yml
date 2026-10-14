@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: cdio
-        image: dgtlmoon/changedetection.io:0.60.4@sha256:7bb6963b730df6a1070f7a08a607b0eb7a87fe65abfa4742d876ad33bb1267eb
+        image: dgtlmoon/changedetection.io:0.60.9@sha256:04eaae7915bad711160cb15abe160f6d3fabe98bbbd658509d4b7a654000fb2d
         imagePullPolicy: IfNotPresent
         env:
         - name: PLAYWRIGHT_DRIVER_URL
