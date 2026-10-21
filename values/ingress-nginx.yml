@@ -1,6 +1,11 @@
 # Helm chart is located at argocd-apps/apps/ingress-nginx.yaml
 # Values are below
 controller:
+  config:
+    # Partial mitigation for CVE-2026-97205 (AIO use-after-free, fixed in nginx 1.31.7/1.30.6).
+    # ingress-nginx is archived (v1.15.1 = nginx 1.27.1, no fix coming) and hard-codes `aio threads;`,
+    # so only aio_write can be disabled. Remove once migrated off ingress-nginx.
+    enable-aio-write: "false"
   service:
     annotations:
       metallb.universe.tf/address-pool: public
