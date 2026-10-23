@@ -1,6 +1,6 @@
 driver:
   image:
-    tag: next
+    tag: v1.9.5
   config:
     driver: freenas-api-iscsi
     instance_id:
@@ -66,7 +66,7 @@ csiDriver:
 controller:
   enabled: true
   image:
-    tag: next
+    tag: v1.9.5
   # deployment = deploy controller parts in a distinct deployment
   # node       = deploy controller as sidecars with node daemonset
   strategy: deployment
@@ -75,7 +75,7 @@ controller:
     enabled: true
     logLevel: debug
     image:
-      tag: next
+      tag: v1.9.5
     extraEnv:
       - name: TRUENAS_HOST
         valueFrom:
@@ -96,7 +96,7 @@ node:
   driver:
     enabled: true
     image:
-      tag: next
+      tag: v1.9.5
     logLevel: debug
     extraEnv:
       - name: TRUENAS_HOST
