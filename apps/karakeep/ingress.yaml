@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: karakeep
   namespace: karakeep
+  annotations:
+    tailscale.com/http-redirect: "true"
 spec:
   ingressClassName: tailscale
   rules:
