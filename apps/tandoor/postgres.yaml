@@ -8,7 +8,7 @@ metadata:
     app: recipes
     tier: database
 spec:
-  imageName: ghcr.io/cloudnative-pg/postgresql:18.6-202611030838-system-trixie@sha256:44d17e8570dc25055376148a2918840def5bef0193969be3e79101afa25eafc2
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.6-202611090812-system-trixie@sha256:48a0038fdd9672d12853d5300666b2592f97f9d34a993ea42e3ecb5a9a5e43e3
   instances: 2
   storage:
     storageClass: "freenas-iscsi-csi"
