@@ -96,6 +96,12 @@ sinksConfig:
     url: '{{ env.DISCORD_WEBHOOK }}'
 kube-prometheus-stack:
   fullnameOverride: "robusta-prom"
+  # k3s embeds the scheduler and controller-manager in the k3s process and doesn't
+  # expose them for scraping, so KubeSchedulerDown/KubeControllerManagerDown fire forever.
+  kubeScheduler:
+    enabled: false
+  kubeControllerManager:
+    enabled: false
   prometheus:
     prometheusSpec:
       storageSpec:
