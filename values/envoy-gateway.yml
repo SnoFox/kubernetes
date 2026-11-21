@@ -1,0 +1,5 @@
+# Helm chart is located at argo/envoy-gateway.yml
+# Chart defaults are fine for fmt. Proxy (data plane) settings live in the
+# EnvoyProxy resource in SnoFox/k8s apps/envoy-gateway, not here.
+deployment:
+  replicas: 1

@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  namespace: argocd
+  name: envoy-gateway
+  labels:
+    snofox.net/catagory: system
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: envoy-gateway-system
+  sources:
+    # Envoy Gateway controller + Envoy Gateway CRDs + Gateway API CRDs (experimental channel)
+    - repoURL: docker.io/envoyproxy
+      chart: gateway-helm
+      targetRevision: v1.10.0
+      helm:
+        valueFiles:
+        - $values/values/envoy-gateway.yml
+    # Contains values for envoy-gateway
+    - repoURL: https://gitlab.com/SnoFox/kubernetes.git
+      targetRevision: master
+      ref: values
+    # GatewayClass, the public Gateway, EnvoyProxy and gateway-wide policies.
+    # Private repo because the Gateway lists every public hostname.
+    - repoURL: https://gitlab.com/SnoFox/k8s.git
+      path: apps/envoy-gateway
+      targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    # Gateway API + Envoy Gateway CRDs exceed the client-side apply annotation limit
+    - ServerSideApply=true
