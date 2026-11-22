@@ -63,7 +63,8 @@ service:
     metallb.universe.tf/allow-shared-ip: shared
     metallb.universe.tf/loadBalancerIPs: 216.218.222.42
   spec:
-    # Required to share an IP with web/owncast-rtmp (MetalLB); same client-IP behaviour as ingress-nginx
+    # MetalLB requires Cluster on every Service sharing an IP (key `shared`); same client-IP behaviour
+    # as ingress-nginx had
     externalTrafficPolicy: Cluster
   additionalServices:
     # ClusterIP Service `traefik-dashboard` for the tailnet Ingress (port 8080 only)
