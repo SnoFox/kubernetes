@@ -5,6 +5,9 @@ metadata:
   name: envoy-gateway
   labels:
     snofox.net/catagory: system
+  # Rollback: makes deleting this Application cascade to everything it deployed
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   destination:
@@ -22,11 +25,6 @@ spec:
     - repoURL: https://gitlab.com/SnoFox/kubernetes.git
       targetRevision: master
       ref: values
-    # GatewayClass, the public Gateway, EnvoyProxy and gateway-wide policies.
-    # Private repo because the Gateway lists every public hostname.
-    - repoURL: https://gitlab.com/SnoFox/k8s.git
-      path: apps/envoy-gateway
-      targetRevision: master
   syncPolicy:
     automated:
       prune: true
