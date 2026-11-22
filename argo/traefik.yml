@@ -11,6 +11,10 @@ spec:
     server: https://kubernetes.default.svc
     namespace: traefik
   sources:
+    # Tailnet Ingress for the dashboard
+    - repoURL: https://gitlab.com/SnoFox/kubernetes.git
+      path: apps/traefik
+      targetRevision: master
     - repoURL: https://traefik.github.io/charts
       chart: traefik
       targetRevision: 42.4.1

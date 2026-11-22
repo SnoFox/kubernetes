@@ -41,11 +41,19 @@ gateway:
 # HSTS on every HTTPS response, as ingress-nginx sends by default. Entrypoint middlewares apply to
 # every router on the entrypoint, whichever provider built it.
 ports:
+  traefik:
+    expose:
+      default: false
+      dashboard: true
   websecure:
     http:
       middlewares:
       - hsts@file
 
+# Dashboard (read-only, no login) on Traefik's internal `traefik` entrypoint (:8080), which the public
+# Service doesn't expose. Reachable only through the tailnet Ingress in apps/traefik/dashboard.yml.
+api:
+  insecure: true
 # ingress-nginx logs every request; keep an access log on stdout
 accessLog:
   enabled: true
@@ -59,3 +67,8 @@ service:
   spec:
     # Required to share an IP with web/owncast-rtmp (MetalLB); same client-IP behaviour as ingress-nginx
     externalTrafficPolicy: Cluster
+  additionalServices:
+    # ClusterIP Service `traefik-dashboard` for the tailnet Ingress (port 8080 only)
+    dashboard:
+      spec:
+        type: ClusterIP

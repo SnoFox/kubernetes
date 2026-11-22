@@ -1,0 +1,24 @@
+# Traefik dashboard on the tailnet: https://traefik.snow-galaxy.ts.net/dashboard/
+# Read-only, no login of its own; access is whatever the tailnet ACLs allow.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: traefik-dashboard
+  namespace: traefik
+  annotations:
+    tailscale.com/http-redirect: "true"
+spec:
+  ingressClassName: tailscale
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: traefik-dashboard
+                port:
+                  name: traefik
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - traefik
