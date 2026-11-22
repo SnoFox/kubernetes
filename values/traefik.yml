@@ -1,0 +1,43 @@
+# Traefik replaces ingress-nginx (archived upstream). It serves the existing `nginx`-class Ingresses
+# unchanged through its ingress-nginx compatibility provider, so every Ingress, its annotations and its
+# cert-manager Certificate stay with their app. Gateway API comes later, with Traefik v3.8.
+deployment:
+  replicas: 2
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+providers:
+  # Reads Ingresses of IngressClass `nginx` (controller k8s.io/ingress-nginx) and their
+  # nginx.ingress.kubernetes.io/* annotations. Class-less Ingresses are ignored, like today.
+  kubernetesIngressNGINX:
+    enabled: true
+    # TEMPORARY (migration plan step 1): off while Traefik runs on the staging IP, so it doesn't write
+    # its IP into Ingress status, which external-dns follows. Turned on at cutover (step 5).
+    publishService:
+      enabled: false
+  kubernetesIngress:
+    enabled: false
+  kubernetesCRD:
+    enabled: false
+# IngressClass `nginx` still comes from the ingress-nginx app; Traefik doesn't create its own
+ingressClass:
+  enabled: false
+gatewayClass:
+  enabled: false
+gateway:
+  enabled: false
+
+# ingress-nginx logs every request; keep an access log on stdout
+accessLog:
+  enabled: true
+
+service:
+  annotations:
+    metallb.universe.tf/address-pool: public
+    metallb.universe.tf/allow-shared-ip: shared
+    # TEMPORARY staging IP (migration plan step 1): becomes 216.218.222.42 at cutover (step 5).
+    metallb.universe.tf/loadBalancerIPs: 216.218.222.47
+  spec:
+    # Required to share an IP with web/owncast-rtmp (MetalLB); same client-IP behaviour as ingress-nginx
+    externalTrafficPolicy: Cluster

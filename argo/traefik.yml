@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  namespace: argocd
+  name: traefik
+  labels:
+    snofox.net/catagory: system
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: traefik
+  sources:
+    - repoURL: https://traefik.github.io/charts
+      chart: traefik
+      targetRevision: 42.4.1
+      helm:
+        # Traefik's own CRDs (IngressRoute, Middleware, Hub) are unused: its CRD provider is off
+        skipCrds: true
+        valueFiles:
+        - $values/values/traefik.yml
+    # Contains values for traefik
+    - repoURL: https://gitlab.com/SnoFox/kubernetes.git
+      targetRevision: master
+      ref: values
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

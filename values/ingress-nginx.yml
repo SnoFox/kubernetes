@@ -10,3 +10,6 @@ controller:
     annotations:
       metallb.universe.tf/address-pool: public
       metallb.universe.tf/allow-shared-ip: shared
+      # Pinned to the IP it already holds so a Traefik cutover rollback returns it here
+      # (migration plan step 5). TEMPORARY: goes away when ingress-nginx is removed.
+      metallb.universe.tf/loadBalancerIPs: 216.218.222.42
