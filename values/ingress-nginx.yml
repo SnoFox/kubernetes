@@ -10,6 +10,3 @@ controller:
     annotations:
       metallb.universe.tf/address-pool: public
       metallb.universe.tf/allow-shared-ip: shared
-      # Pinned to the IP it already holds so an Envoy Gateway cutover rollback returns it here
-      # (migration plan, phase 2). TEMPORARY: goes away when ingress-nginx is removed (phase 4).
-      metallb.universe.tf/loadBalancerIPs: 216.218.222.42
