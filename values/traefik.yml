@@ -12,10 +12,9 @@ providers:
   # nginx.ingress.kubernetes.io/* annotations. Class-less Ingresses are ignored, like today.
   kubernetesIngressNGINX:
     enabled: true
-    # TEMPORARY (migration plan step 1): off while Traefik runs on the staging IP, so it doesn't write
-    # its IP into Ingress status, which external-dns follows. Turned on at cutover (step 5).
+    # Traefik writes its Service address into Ingress status (external-dns follows it)
     publishService:
-      enabled: false
+      enabled: true
   kubernetesIngress:
     enabled: false
   kubernetesCRD:
@@ -54,8 +53,7 @@ service:
   annotations:
     metallb.universe.tf/address-pool: public
     metallb.universe.tf/allow-shared-ip: shared
-    # TEMPORARY staging IP (migration plan step 1): becomes 216.218.222.42 at cutover (step 5).
-    metallb.universe.tf/loadBalancerIPs: 216.218.222.47
+    metallb.universe.tf/loadBalancerIPs: 216.218.222.42
   spec:
     # Required to share an IP with web/owncast-rtmp (MetalLB); same client-IP behaviour as ingress-nginx
     externalTrafficPolicy: Cluster
