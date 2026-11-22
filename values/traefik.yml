@@ -70,3 +70,14 @@ service:
     dashboard:
       spec:
         type: ClusterIP
+
+# IngressClass `nginx`, adopted from the removed ingress-nginx app. Traefik's ingress-nginx provider
+# serves only Ingresses whose class points at controller k8s.io/ingress-nginx; the Ingresses keep
+# `ingressClassName: nginx` until they move to Gateway API.
+extraObjects:
+- apiVersion: networking.k8s.io/v1
+  kind: IngressClass
+  metadata:
+    name: nginx
+  spec:
+    controller: k8s.io/ingress-nginx
