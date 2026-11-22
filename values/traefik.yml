@@ -29,7 +29,7 @@ providers:
             headers:
               stsSeconds: 31536000
               stsIncludeSubdomains: true
-# IngressClass `nginx` still comes from the ingress-nginx app; Traefik doesn't create its own
+# The chart's own IngressClass is off; IngressClass `nginx` is declared in extraObjects below
 ingressClass:
   enabled: false
 gatewayClass:
