@@ -20,6 +20,16 @@ providers:
     enabled: false
   kubernetesCRD:
     enabled: false
+  # Gateway-wide middlewares
+  file:
+    enabled: true
+    content:
+      http:
+        middlewares:
+          hsts:
+            headers:
+              stsSeconds: 31536000
+              stsIncludeSubdomains: true
 # IngressClass `nginx` still comes from the ingress-nginx app; Traefik doesn't create its own
 ingressClass:
   enabled: false
@@ -27,6 +37,14 @@ gatewayClass:
   enabled: false
 gateway:
   enabled: false
+
+# HSTS on every HTTPS response, as ingress-nginx sends by default. Entrypoint middlewares apply to
+# every router on the entrypoint, whichever provider built it.
+ports:
+  websecure:
+    http:
+      middlewares:
+      - hsts@file
 
 # ingress-nginx logs every request; keep an access log on stdout
 accessLog:
