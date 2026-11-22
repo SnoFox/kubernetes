@@ -12,6 +12,9 @@ controller:
     # so only aio_write can be disabled. Remove once migrated off ingress-nginx.
     enable-aio-write: "false"
   service:
+    # Cutover 1/2 (migration step 4): frees 216.218.222.42 for Traefik. nginx keeps running,
+    # unexposed, for rollback.
+    type: ClusterIP
     annotations:
       metallb.universe.tf/address-pool: public
       metallb.universe.tf/allow-shared-ip: shared
