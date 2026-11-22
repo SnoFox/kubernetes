@@ -1,6 +1,11 @@
 # Helm chart is located at argocd-apps/apps/ingress-nginx.yaml
 # Values are below
 controller:
+  # TEMPORARY (migration step 3): freeze Ingress status at 216.218.222.42. When the Service becomes
+  # ClusterIP (step 4), ingress-nginx would otherwise publish its ClusterIP and external-dns would
+  # point public DNS at it. Goes away with ingress-nginx.
+  extraArgs:
+    update-status: "false"
   config:
     # Partial mitigation for CVE-2026-97205 (AIO use-after-free, fixed in nginx 1.31.7/1.30.6).
     # ingress-nginx is archived (v1.15.1 = nginx 1.27.1, no fix coming) and hard-codes `aio threads;`,
