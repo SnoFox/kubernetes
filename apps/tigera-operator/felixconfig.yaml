@@ -1,8 +1,6 @@
 apiVersion: crd.projectcalico.org/v1
 kind: FelixConfiguration
 metadata:
-  annotations:
-    operator.tigera.io/bpfEnabled: "false"
   name: default
 spec:
   logSeverityScreen: Info
