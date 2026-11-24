@@ -17,7 +17,7 @@ spec:
       targetRevision: master
     - repoURL: https://traefik.github.io/charts
       chart: traefik
-      targetRevision: 42.4.2
+      targetRevision: 42.4.3
       helm:
         # Traefik's own CRDs (IngressRoute, Middleware, Hub) are unused: its CRD provider is off
         skipCrds: true
